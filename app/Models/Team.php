@@ -11,7 +11,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
  * This model is the APP.
- *
+ * 
  * App\Models\Team
  *
  * @property int $id

@@ -16,6 +16,6 @@ class FindTenantByShareCodeController extends Controller
                 ->id
         )->firstOrFail();
 
-        return response()->json($tenant->id);
+        return response()->json($tenant);
     }
 }
