@@ -11,7 +11,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
  * This model is the APP.
- * 
+ *
  * App\Models\Team
  *
  * @property int $id
@@ -81,5 +81,14 @@ class Team extends JetstreamTeam
             set: fn (string $value) => strtolower($value),
             get: fn (string $value) => ucwords($value)
         );
+    }
+
+    public static function generateShareCode(): string
+    {
+        do {
+            $code = substr(md5(rand()), 0, 8);
+        } while (static::where('share_code', $code)->exists());
+
+        return $code;
     }
 }

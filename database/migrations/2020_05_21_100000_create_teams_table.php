@@ -14,6 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->foreignId('user_id')->index();
             $table->string('name');
+            $table->string('share_code');
             $table->boolean('personal_team');
             $table->timestamps();
         });

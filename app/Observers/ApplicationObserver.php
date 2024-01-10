@@ -7,6 +7,13 @@ use App\Models\Tenant;
 
 class ApplicationObserver
 {
+    public function creating(Team $team): void
+    {
+        $team->forceFill([
+            'share_code' => Team::generateShareCode(),
+        ]);
+    }
+
     public function created(Team $team): void
     {
         $tenant =  new Tenant();
