@@ -8,7 +8,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        //
+        $databases = DB::select('SHOW DATABASES LIKE "coach_manager_app_%"');
+
+        foreach ($databases as $database) {
+            $database = collect(json_decode(json_encode($database), true));
+
+            DB::statement('DROP DATABASE ' . $database->first());
+        }
     }
 
     /**
@@ -16,6 +22,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        DB::statement("DROP DATABASE IF EXISTS `tenant_%`");
+        //
     }
 };

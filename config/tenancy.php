@@ -2,14 +2,17 @@
 
 declare(strict_types = 1);
 
-use App\Models\Application;
+use App\Models\Tenant;
+use Illuminate\Support\Env;
 use Stancl\Tenancy\Database\Models\Domain;
 
 return [
-    'tenant_model' => Application::class,
+    'tenant_model' => Tenant::class,
     'id_generator' => Stancl\Tenancy\UUIDGenerator::class,
 
     'domain_model' => Domain::class,
+
+    'hostname' => Env::getOrFail('TENANCY_HOSTNAME'),
 
     /**
      * The list of domains hosting your central app.
@@ -51,7 +54,7 @@ return [
          * Tenant database names are created like this:
          * prefix + tenant_id + suffix.
          */
-        'prefix' => 'tenant',
+        'prefix' => 'coach_manager_app_',
         'suffix' => '',
 
         /**

@@ -9,6 +9,8 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
+ * This model is the APP.
+ *
  * App\Models\Team
  *
  * @property int $id
@@ -32,6 +34,8 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  * @method static \Illuminate\Database\Eloquent\Builder|Team wherePersonalTeam($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUserId($value)
+ * @property string $tenant_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Team whereTenantId($value)
  * @mixin \Eloquent
  */
 class Team extends JetstreamTeam
