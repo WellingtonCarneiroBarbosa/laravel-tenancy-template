@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
@@ -10,7 +11,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
  * This model is the APP.
- *
+ * 
  * App\Models\Team
  *
  * @property int $id
@@ -73,4 +74,12 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
+
+    public function name(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => strtolower($value),
+            get: fn (string $value) => ucwords($value)
+        );
+    }
 }
