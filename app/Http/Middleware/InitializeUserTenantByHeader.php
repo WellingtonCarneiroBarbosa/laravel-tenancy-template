@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class InitializeTenantByHeader
+class InitializeUserTenantByHeader
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,15 @@ class InitializeTenantByHeader
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->hasHeader('X-Tenant-Id')) {
+        if ($request->hasHeader('X-Tenant-Id') && session('ignores_tenant') !== true) {
             $tenant = \App\Models\Tenant::find($request->header('X-Tenant-Id'));
 
             if (!$tenant) {
                 abort(403, 'Tenant not exists');
+            }
+
+            if ($request->user()->currentTeam->id != $tenant->id) {
+                abort(400, 'The current team is not the same as the tenant');
             }
 
             if (tenancy()->initialized) {
@@ -32,6 +36,7 @@ class InitializeTenantByHeader
         }
 
         if (tenant() === null) {
+            dd('aqui');
             abort(403, 'Tenant not exists');
         }
 

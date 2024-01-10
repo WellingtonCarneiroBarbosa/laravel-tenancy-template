@@ -28,7 +28,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    \App\Http\Middleware\InitializeTenantByHeader::class,
+    \App\Http\Middleware\InitializeUserTenantByHeader::class,
 ])->prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return Inertia::render('Dashboard');
