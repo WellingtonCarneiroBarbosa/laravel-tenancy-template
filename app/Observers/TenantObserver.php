@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Tenant;
+use Artisan;
 use Illuminate\Support\Str;
 use Stancl\Tenancy\Database\Models\Domain;
 
@@ -30,6 +31,10 @@ class TenantObserver
         Domain::create([
             'domain'    => $domain,
             'tenant_id' => $tenant->id,
+        ]);
+
+        Artisan::call('tenants:seed', [
+            '--tenants' => $tenant->id,
         ]);
     }
 

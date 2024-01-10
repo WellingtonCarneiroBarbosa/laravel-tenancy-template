@@ -37,6 +37,8 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUserId($value)
  * @property string $tenant_id
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereTenantId($value)
+ * @property string $share_code
+ * @method static \Illuminate\Database\Eloquent\Builder|Team whereShareCode($value)
  * @mixin \Eloquent
  */
 class Team extends JetstreamTeam
