@@ -11,8 +11,8 @@ class ApplicationObserver
     {
         $tenant =  new Tenant();
         $tenant->forceFill([
-            'id'   => $team->id,
-            'name' => $team->name,
+            'id'             => $team->id,
+            'name'           => $team->name,
         ])->save();
     }
 

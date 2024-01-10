@@ -17,4 +17,8 @@ use Illuminate\Database\Eloquent\Model;
 class OnBoardingForm extends Model
 {
     use HasFactory;
+
+    protected $connection = 'tenant';
+
+    protected $table = 'on_boarding_form';
 }

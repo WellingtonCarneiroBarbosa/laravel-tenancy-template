@@ -11,9 +11,9 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('on_boarding_forms', function (Blueprint $table) {
+        Schema::create('on_boarding_form', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Team::class, 'application_id')->index();
+            $table->foreignIdFor(Team::class, 'application_id')->unique()->index();
 
             $table->json('steps');
             $table->json('questions');
@@ -27,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('on_boarding_forms');
+        Schema::dropIfExists('on_boarding_form');
     }
 };
