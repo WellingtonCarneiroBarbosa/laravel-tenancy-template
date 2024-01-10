@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         User::create([
             'name'     => 'Default User',
             'email'    => 'default@default.com',
-            'password' => '12345678',
+            'password' => 'password',
         ]);
 
         Team::create([
