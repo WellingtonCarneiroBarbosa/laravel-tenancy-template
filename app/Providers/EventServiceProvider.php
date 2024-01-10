@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Listeners\InitializeTenantByUserTeam;
 use App\Models\Team;
 use App\Models\Tenant;
 use App\Observers\ApplicationObserver;
 use App\Observers\TenantObserver;
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +23,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        Authenticated::class => [
+            InitializeTenantByUserTeam::class,
         ],
     ];
 

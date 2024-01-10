@@ -42,6 +42,8 @@ class Team extends JetstreamTeam
 {
     use HasFactory;
 
+    protected $connection = 'central';
+
     /**
      * The attributes that should be cast.
      *

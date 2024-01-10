@@ -36,4 +36,6 @@ class Domain extends TenancyDomainModel
     use SoftDeletes;
 
     protected $guarded = [];
+
+    protected $connection = 'central';
 }

@@ -5,7 +5,6 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
-import { usePage } from "@inertiajs/vue3";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -17,11 +16,15 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue")
         ),
     setup({ el, App, props, plugin }) {
+        let user = props.initialPage.props?.auth?.user ?? null;
+
+        if (user !== null) {
+            window.axios.defaults.headers.common["X-Tenant-Id"] =
+                user.current_team_id;
+        }
+
         return createApp({
             render: () => {
-                window.axios.defaults.headers.common["X-Tenant-Id"] =
-                    props.initialPage.props.auth.user.current_team_id;
-
                 return h(App, props);
             },
         })

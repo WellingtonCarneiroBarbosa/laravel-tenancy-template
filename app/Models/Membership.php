@@ -26,6 +26,8 @@ use Laravel\Jetstream\Membership as JetstreamMembership;
  */
 class Membership extends JetstreamMembership
 {
+    protected $connection = 'central';
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *

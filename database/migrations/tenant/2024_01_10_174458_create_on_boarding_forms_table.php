@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +12,6 @@ return new class () extends Migration {
     {
         Schema::create('on_boarding_form', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Team::class, 'application_id')->unique()->index();
 
             $table->json('steps');
             $table->json('questions');

@@ -21,4 +21,9 @@ class OnBoardingForm extends Model
     protected $connection = 'tenant';
 
     protected $table = 'on_boarding_form';
+
+    protected $casts = [
+        'steps'     => 'collection',
+        'questions' => 'collection',
+    ];
 }

@@ -13,16 +13,18 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        $user = User::create([
             'name'     => 'Default User',
             'email'    => 'default@default.com',
             'password' => 'password',
         ]);
 
-        Team::create([
+        $team = Team::create([
             'name'          => 'Default Team',
             'user_id'       => 1,
             'personal_team' => true,
         ]);
+
+        $user->switchTeam($team);
     }
 }

@@ -65,7 +65,9 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
-    use HasTeams;
+    use HasTeams {
+        switchTeam as protected jetstreamSwitchTeam;
+    }
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -77,6 +79,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
+    protected $connection = 'central';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -113,5 +117,16 @@ class User extends Authenticatable
         return Attribute::make(
             set: fn (string $value) => Hash::make($value),
         );
+    }
+
+    public function switchTeam($team)
+    {
+        $this->jetstreamSwitchTeam($team);
+
+        tenancy()->initialize(Tenant::findOrFail($team->id));
+
+        session()->flash('ignores_tenant', true);
+
+        return true;
     }
 }

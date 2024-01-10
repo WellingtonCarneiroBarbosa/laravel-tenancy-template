@@ -15,23 +15,32 @@ class InitializeTenantByHeader
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $tenantId = $request->header('X-Tenant-Id');
+        if ($request->hasHeader('X-Tenant-Id') && session('ignores_tenant') !== true) {
+            $tenant = \App\Models\Tenant::find($request->header('X-Tenant-Id'));
 
-        if (!$tenantId) {
-            abort(400, 'X-Tenant-Id header is missing');
+            if (!$tenant) {
+                dd('aquii');
+
+                abort(403, 'Tenant not exists');
+            }
+
+            if ($request->user()->currentTeam->id != $tenant->id) {
+                abort(400, 'The current team is not the same as the tenant');
+            }
+
+            if (tenancy()->initialized) {
+                if (tenancy()->tenant->id != $tenant->id) {
+                    tenancy()->initialize($tenant);
+                }
+            } else {
+                tenancy()->initialize($tenant);
+            }
         }
 
-        $tenant = \App\Models\Tenant::find($tenantId);
-
-        if (!$tenant) {
-            abort(403, 'X-Tenant-Id header is invalid');
+        if (tenant() === null) {
+            dd('aqui');
+            abort(403, 'Tenant not exists');
         }
-
-        if ($request->user()->currentTeam->id != $tenant->id) {
-            abort(400, 'The current team is not the same as the tenant');
-        }
-
-        tenancy()->initialize($tenant);
 
         return $next($request);
     }

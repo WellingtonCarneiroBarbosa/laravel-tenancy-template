@@ -29,6 +29,8 @@ use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
  */
 class TeamInvitation extends JetstreamTeamInvitation
 {
+    protected $connection = 'central';
+
     /**
      * The attributes that are mass assignable.
      *
