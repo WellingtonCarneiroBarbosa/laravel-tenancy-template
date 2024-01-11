@@ -2,9 +2,10 @@
 import { nextTick, ref, watch } from "vue";
 import axios from "axios";
 
+const props = defineProps(["someProp"]);
 const pinInputs = ref(["", "", "", "", ""]);
 
-const invalidPin = ref(true);
+const invalidPin = ref(false);
 
 const loading = ref(false);
 
@@ -40,12 +41,16 @@ const getTenant = (pin) => {
             route("api.coach-app.find-tenant-by-share-code", { shareCode: pin })
         )
         .then((response) => {
-            if (response.data) {
-                console.log(data);
-            }
+            let redirectRoute = route("students-app.initialized-app.index", {
+                tenant: response.data.id,
+            });
+
+            window.location.href = redirectRoute;
         })
         .catch((error) => {
-            if (error.response.status === 404) {
+            loading.value = false;
+
+            if (error?.response?.status === 404) {
                 invalidPin.value = true;
                 pinInputs.value = ["", "", "", "", ""];
 
@@ -57,10 +62,11 @@ const getTenant = (pin) => {
                         firstInput?.focus();
                     });
                 });
+
+                return;
             }
-        })
-        .finally(() => {
-            loading.value = false;
+
+            console.log(error);
         });
 };
 
