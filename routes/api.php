@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::prefix('coach-app')->group(function () {
-    Route::get('/tenant/{shareCode}', FindTenantByShareCodeController::class);
+Route::prefix('coach-app')->name('api.coach-app.')->group(function () {
+    Route::get('/tenant/{shareCode}', FindTenantByShareCodeController::class)->name('find-tenant-by-share-code');
 
     Route::middleware([
         InitializeTenantByHeader::class,
