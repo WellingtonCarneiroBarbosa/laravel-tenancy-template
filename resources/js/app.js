@@ -18,11 +18,14 @@ if (window.location.pathname.includes("students-app")) {
                 import.meta.glob("./StudentsApp/Pages/**/*.vue")
             ),
         setup({ el, App, props, plugin }) {
-            let coachAppId = props.initialPage.props?.coach_app_id ?? null;
+            let coach_app_id = window.location.pathname.split("/")[2];
 
-            if (coachAppId !== null) {
-                window.axios.defaults.headers.common["X-Tenant-Id"] =
-                    coachAppId;
+            if (coach_app_id === "" || coach_app_id === undefined) {
+                coach_app_id = null;
+            }
+
+            if (coach_app_id !== null) {
+                localStorage.setItem("coach_app_id", coach_app_id);
             }
 
             return createApp({

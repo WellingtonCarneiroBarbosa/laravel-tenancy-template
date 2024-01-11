@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, watch } from "vue";
+import { nextTick, ref, watch, onMounted } from "vue";
 import axios from "axios";
 import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
 
@@ -7,6 +7,8 @@ const props = defineProps(["someProp"]);
 const pinInputs = ref(["", "", "", "", ""]);
 
 const invalidPin = ref(false);
+
+const hiddenPage = ref(true);
 
 const loading = ref(false);
 
@@ -202,11 +204,30 @@ const pasteValue = (event) => {
         focusedInput?.blur();
     }
 };
+
+onMounted(() => {
+    let coach_app_id = localStorage.getItem("coach_app_id");
+
+    if (
+        coach_app_id !== null &&
+        coach_app_id !== undefined &&
+        coach_app_id !== ""
+    ) {
+        window.location.href = route("students-app.initialized-app.home", {
+            tenant: coach_app_id,
+        });
+
+        return;
+    }
+
+    hiddenPage.value = false;
+});
 </script>
 
 <template>
     <div
         class="bg-gray-200 dark:bg-gray-900 flex items-center justify-center content-center h-full min-h-screen w-full px-2"
+        v-if="!hiddenPage"
     >
         <ThemeToggler />
         <section class="lg:px-4 py-20">

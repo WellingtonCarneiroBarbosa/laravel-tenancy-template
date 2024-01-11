@@ -4,7 +4,7 @@ import TextInput from "@/StudentsApp/Components/TextInput.vue";
 import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
 import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
 import { User, Lock, ArrowRight } from "lucide-vue-next";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 
 const form = useForm({
     cpf: "",
@@ -41,6 +41,14 @@ watch(
         immediate: true,
     }
 );
+
+const authenticate = () => {
+    form.post(
+        route("students-app.initialized-app.auth.login", {
+            tenant: localStorage.getItem("coach_app_id"),
+        })
+    );
+};
 </script>
 
 <template>
@@ -62,8 +70,9 @@ watch(
                     type="text"
                     placeholder="Digite seu CPF"
                     v-model="form.cpf"
-                    :valid="validCpf"
-                    :invalid="form.errors.cpf"
+                    :loading="form.processing"
+                    :valid="validCpf && !form.hasErrors"
+                    :invalid="form.errors.cpf !== undefined"
                     :message="form.errors.cpf"
                     :mask="cpfMask"
                     :icon="User"
@@ -73,8 +82,9 @@ watch(
             <div class="relative w-full mt-2">
                 <TextInput
                     id="password"
-                    :invalid="form.errors.password"
-                    :valid="validPassword"
+                    :loading="form.processing"
+                    :invalid="form.errors.password !== undefined"
+                    :valid="validPassword && !form.hasErrors"
                     v-model="form.password"
                     :message="form.errors.password"
                     :icon="Lock"
@@ -84,6 +94,7 @@ watch(
                             ? (validPassword = true)
                             : (validPassword = false)
                     "
+                    @keydown.enter="authenticate"
                     type="password"
                     placeholder="Digite sua senha"
                 />
@@ -91,7 +102,7 @@ watch(
 
             <div class="w-full mt-3">
                 <PrimaryButton
-                    @click="form.processing = !form.processing"
+                    @click="authenticate"
                     :loading="form.processing"
                     class="rounded-full px-4 float-end"
                 >

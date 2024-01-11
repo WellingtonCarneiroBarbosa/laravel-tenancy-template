@@ -118,4 +118,12 @@ class User extends Authenticatable
             set: fn (string $value) => Hash::make($value),
         );
     }
+
+    public function cpf(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => preg_replace('/[^0-9]/is', '', $value),
+            set: fn (string $value) => preg_replace('/[^0-9]/is', '', $value),
+        );
+    }
 }

@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
         User::create([
             'name'     => 'Tenant User',
             'email'    => 'default@tenant.com',
+            'cpf'      => '86009088097',
             'password' => 'password',
         ]);
     }

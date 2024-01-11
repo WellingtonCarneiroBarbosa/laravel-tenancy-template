@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\StudentsApp\Auth\LoginController;
 use App\Http\Middleware\StudentsApp\Authenticated;
-use App\Http\Middleware\StudentsApp\InitializeTenant;
 use App\Http\Middleware\StudentsApp\KeepSessionForeverToAuthenticatedUsers;
 use App\Http\Middleware\StudentsApp\RedirectIfAuthenticated;
-use App\Http\Middleware\StudentsApp\TenantNotInitialized;
 use Inertia\Inertia;
+use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
+use Stancl\Tenancy\Middleware\ScopeSessions;
 
 Route::prefix('/students-app')
     ->middleware([
@@ -16,15 +16,17 @@ Route::prefix('/students-app')
     ->group(function () {
         Route::get('/', function () {
             return Inertia::render('Index');
-        })->middleware(TenantNotInitialized::class, RedirectIfAuthenticated::class)->name('index');
+        })->middleware(RedirectIfAuthenticated::class)->name('index');
 
         Route::prefix("/{tenant}")->middleware([
-            InitializeTenant::class,
+            InitializeTenancyByPath::class,
+            ScopeSessions::class,
         ])->name('initialized-app.')->group(function () {
             Route::prefix('/auth')->middleware([
                 RedirectIfAuthenticated::class,
             ])->name('auth.')->group(function () {
                 Route::get('/login', LoginController::class)->name('login');
+                Route::post('/login', [LoginController::class, 'authenticate']);
             });
 
             Route::middleware([
