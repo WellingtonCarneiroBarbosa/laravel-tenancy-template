@@ -41,7 +41,7 @@ const getTenant = (pin) => {
             route("api.coach-app.find-tenant-by-share-code", { shareCode: pin })
         )
         .then((response) => {
-            let redirectRoute = route("students-app.initialized-app.index", {
+            let redirectRoute = route("students-app.initialized-app.home", {
                 tenant: response.data.id,
             });
 

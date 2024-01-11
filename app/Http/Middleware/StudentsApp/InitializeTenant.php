@@ -2,21 +2,14 @@
 
 namespace App\Http\Middleware\StudentsApp;
 
-use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Stancl\Tenancy\Exceptions\RouteIsMissingTenantParameterException;
 use Stancl\Tenancy\Resolvers\PathTenantResolver;
-use Symfony\Component\HttpFoundation\Response;
 
 class InitializeTenant
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, $next)
     {
         /** @var Route $route */
         $route = $request->route();
@@ -24,6 +17,8 @@ class InitializeTenant
         if ($tenant = session('tenant')) {
             if ($route->parameterNames()[0] === PathTenantResolver::$tenantParameterName && $route->parameter(PathTenantResolver::$tenantParameterName) === $tenant->id) {
                 tenancy()->initialize($tenant);
+
+                return $next($request);
             } else {
                 session()->forget('tenant');
             }
