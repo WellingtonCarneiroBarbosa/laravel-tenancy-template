@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, ref, useAttrs } from "vue";
+import { onMounted, ref, useAttrs, reactive } from "vue";
+import { vMaska } from "maska";
 
-defineProps({
+const props = defineProps({
     modelValue: String,
     icon: Object | null | undefined,
     invalid: {
@@ -12,6 +13,7 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    mask: Object | null | undefined,
     loading: Boolean,
     message: String | null | undefined,
 });
@@ -47,6 +49,7 @@ defineExpose({ focus: () => input.value.focus() });
                     valid,
                 'pl-9': icon,
             }"
+            v-maska:[mask]
             @input="$emit('update:modelValue', $event.target.value)"
             class="py-3 px-4 bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:text-gray-400 block w-full rounded-lg transition-colors duration-150 ease-in"
             required

@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, watch, ref } from "vue";
+import { nextTick, watch, ref, reactive } from "vue";
 import TextInput from "@/StudentsApp/Components/TextInput.vue";
 import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
 import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
@@ -13,6 +13,16 @@ const form = useForm({
 
 const validCpf = ref(false);
 const validPassword = ref(false);
+
+const cpfMask = reactive({
+    mask: "###.###.###-##",
+    tokens: {
+        "#": {
+            pattern: /[0-9]/,
+            fallback: "0",
+        },
+    },
+});
 
 watch(
     () => form.cpf,
@@ -55,6 +65,7 @@ watch(
                     :valid="validCpf"
                     :invalid="form.errors.cpf"
                     :message="form.errors.cpf"
+                    :mask="cpfMask"
                     :icon="User"
                 />
             </div>
