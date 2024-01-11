@@ -4,7 +4,7 @@ import TextInput from "@/StudentsApp/Components/TextInput.vue";
 import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
 import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
 import { User, Lock, ArrowRight } from "lucide-vue-next";
-import { useForm, usePage } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 
 const form = useForm({
     cpf: "",
