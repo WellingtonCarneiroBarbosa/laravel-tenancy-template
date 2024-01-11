@@ -37,4 +37,4 @@ Route::middleware([
     require __DIR__ . '/web/routes.php';
 });
 
-require __DIR__ . '/student-app-web/routes.php';
+require __DIR__ . '/students-app-web/routes.php';

@@ -5,3 +5,8 @@
 [x-cloak] {
     display: none;
 }
+
+input, select, textarea {
+    font-size: 16px;
+    touch-action: manipulation;
+}

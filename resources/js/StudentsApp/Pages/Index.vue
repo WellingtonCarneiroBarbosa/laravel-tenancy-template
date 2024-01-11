@@ -205,7 +205,7 @@ const pasteValue = (event) => {
 
 <template>
     <div
-        class="dark:bg-gray-900 flex items-center justify-center content-center h-screen w-full px-2"
+        class="bg-gray-200 dark:bg-gray-900 flex items-center justify-center content-center h-full min-h-screen w-full px-2"
     >
         <section class="lg:px-4 py-20">
             <div
@@ -213,7 +213,7 @@ const pasteValue = (event) => {
             >
                 <div class="mb-4 flex justify-center">
                     <h1
-                        class="lg:px-56 md:px-40 leading-10 lg:text-8xl md:text-7xl text-4xl font-black text-center text-gray-800 dark:text-white"
+                        class="lg:px-56 md:px-40 leading-10 lg:text-8xl md:text-7xl text-4xl font-extrabold text-center text-gray-800 dark:text-white"
                     >
                         SEJA BEM-VINDO AO APP DO TREINADOR.
                     </h1>
@@ -242,7 +242,7 @@ const pasteValue = (event) => {
                             }"
                             type="text"
                             :disabled="loading"
-                            class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
+                            class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                             autofocus
                         />
                         <input
@@ -258,7 +258,7 @@ const pasteValue = (event) => {
                             autocomplete="off"
                             :disabled="loading"
                             v-on:keydown="handleKeyPress($event)"
-                            class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
+                            class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                         <input
                             id="pin-input-2"
@@ -273,7 +273,7 @@ const pasteValue = (event) => {
                             autocomplete="off"
                             :disabled="loading"
                             v-on:keydown="handleKeyPress($event)"
-                            class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
+                            class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                         <input
                             id="pin-input-3"
@@ -288,7 +288,7 @@ const pasteValue = (event) => {
                             autocomplete="off"
                             :disabled="loading"
                             v-on:keydown="handleKeyPress($event)"
-                            class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
+                            class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                         <input
                             id="pin-input-4"
@@ -302,7 +302,7 @@ const pasteValue = (event) => {
                             }"
                             type="text"
                             autocomplete="off"
-                            class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
+                            class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                     </div>
 
@@ -310,6 +310,13 @@ const pasteValue = (event) => {
                         Parece que o código que você inseriu é inválido.
                         <br />
                         Por favor, tente novamente.
+                    </p>
+
+                    <p class="mt-2 dark:text-gray-300">
+                        Não recebeu nenhum código?
+                        <a class="text-blue-600 font-bold" href="#"
+                            >Clique aqui.</a
+                        >
                     </p>
                 </div>
             </div>

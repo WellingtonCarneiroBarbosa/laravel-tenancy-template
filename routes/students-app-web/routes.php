@@ -1,12 +1,17 @@
 <?php
 
+use App\Http\Controllers\StudentsApp\Auth\LoginController;
 use App\Http\Middleware\StudentsApp\Authenticated;
 use App\Http\Middleware\StudentsApp\InitializeTenant;
+use App\Http\Middleware\StudentsApp\KeepSessionForeverToAuthenticatedUsers;
 use App\Http\Middleware\StudentsApp\RedirectIfAuthenticated;
 use App\Http\Middleware\StudentsApp\TenantNotInitialized;
 use Inertia\Inertia;
 
 Route::prefix('/students-app')
+    ->middleware([
+        KeepSessionForeverToAuthenticatedUsers::class,
+    ])
     ->name('students-app.')
     ->group(function () {
         Route::get('/', function () {
@@ -19,9 +24,7 @@ Route::prefix('/students-app')
             Route::prefix('/auth')->middleware([
                 RedirectIfAuthenticated::class,
             ])->name('auth.')->group(function () {
-                Route::get('/login', function () {
-                    return 'login';
-                })->name('login');
+                Route::get('/login', LoginController::class)->name('login');
             });
 
             Route::middleware([

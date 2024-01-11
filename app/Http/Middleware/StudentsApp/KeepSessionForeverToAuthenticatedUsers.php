@@ -4,9 +4,10 @@ namespace App\Http\Middleware\StudentsApp;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 
-class TenantNotInitialized
+class KeepSessionForeverToAuthenticatedUsers
 {
     /**
      * Handle an incoming request.
@@ -15,12 +16,8 @@ class TenantNotInitialized
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (tenancy()->initialized || session('tenant') !== null || auth()->user()) {
-            $tenantId = tenancy()->tenant?->id ?? session('tenant')->id;
-
-            return redirect()->route('students-app.initialized-app.home', [
-                'tenant' => $tenantId,
-            ]);
+        if (auth()->user()) {
+            Config::set('session.lifetime', 35791394); // 68 YEARS
         }
 
         return $next($request);

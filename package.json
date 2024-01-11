@@ -20,6 +20,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "lucide-vue-next": "^0.309.0",
         "preline": "^2.0.3"
     }
 }

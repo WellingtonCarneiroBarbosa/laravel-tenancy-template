@@ -1,0 +1,91 @@
+<script setup>
+import { nextTick, watch, ref } from "vue";
+import TextInput from "@/StudentsApp/Components/TextInput.vue";
+import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
+import { User, Lock, ArrowRight } from "lucide-vue-next";
+import { useForm } from "@inertiajs/vue3";
+
+const form = useForm({
+    cpf: "",
+    password: "",
+});
+
+const validCpf = ref(false);
+const validPassword = ref(false);
+
+watch(
+    () => form.cpf,
+    (value) => {
+        if (value?.length === 14) {
+            validCpf.value = true;
+
+            nextTick(() => {
+                document.getElementById("password").focus();
+            });
+        } else {
+            validCpf.value = false;
+        }
+    },
+    {
+        immediate: true,
+    }
+);
+</script>
+
+<template>
+    <div
+        class="bg-gray-200 dark:bg-gray-900 flex flex-col items-center justify-center content-center text-center h-full min-h-screen w-full px-4"
+    >
+        <h1
+            class="text-xl mt-2 leading-6 text-center text-gray-600 dark:text-gray-300 font-bold w-4/6"
+        >
+            Agora, insira seu CPF e sua senha.
+        </h1>
+
+        <div
+            class="mt-2 flex-col items-center justify-center text-center w-[80%] md:w-[40%] h-full bg-gray-300 dark:bg-gray-700 rounded-md p-4"
+        >
+            <div class="relative w-full">
+                <TextInput
+                    type="text"
+                    placeholder="Digite seu CPF"
+                    v-model="form.cpf"
+                    :valid="validCpf"
+                    :invalid="form.errors.cpf"
+                    :message="form.errors.cpf"
+                    :icon="User"
+                />
+            </div>
+
+            <div class="relative w-full mt-2">
+                <TextInput
+                    id="password"
+                    :invalid="form.errors.password"
+                    :valid="validPassword"
+                    v-model="form.password"
+                    :message="form.errors.password"
+                    :icon="Lock"
+                    v-on:keydown="validPassword = false"
+                    v-on:focusout="
+                        form.password.length > 7
+                            ? (validPassword = true)
+                            : (validPassword = false)
+                    "
+                    type="password"
+                    placeholder="Digite sua senha"
+                />
+            </div>
+
+            <div class="w-full mt-3">
+                <PrimaryButton class="rounded-full px-4 float-end">
+                    COMEÇAR <ArrowRight class="ml-2 w-5 h-5" />
+                </PrimaryButton>
+            </div>
+        </div>
+
+        <p class="mt-1 dark:text-gray-300">
+            Se esse é seu primeiro acesso, insira a senha que recebeu em seu
+            e-mail.
+        </p>
+    </div>
+</template>
