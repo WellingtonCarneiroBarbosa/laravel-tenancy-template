@@ -12,7 +12,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
  * This model is the APP.
- *
+ * 
  * App\Models\Team
  *
  * @property int $id
@@ -99,11 +99,13 @@ class Team extends JetstreamTeam
         do {
             $codeLetters = Str::random(random_int(1, 3));
 
-            $missingChars = 5 - strlen($codeLetters);
+            $missingChars = 4 - strlen($codeLetters);
 
             $code = $codeLetters . random_int(10 ** $missingChars, 10 ** ($missingChars + 1) - 1);
 
-            $code = strtoupper($code);
+            $code = strtoupper(
+                str_shuffle($code)
+            );
         } while (static::where('share_code', $code)->exists());
 
         return $code;
