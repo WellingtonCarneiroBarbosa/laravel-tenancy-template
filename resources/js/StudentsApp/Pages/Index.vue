@@ -20,6 +20,12 @@ watch(
         if (pin.length === 5) {
             getTenant(pin);
         }
+
+        for (let i = 0; i < values.length; i++) {
+            if (values[i]?.length > 1) {
+                pinInputs.value[i] = values[i].slice(0, 1);
+            }
+        }
     },
     {
         deep: true,
@@ -59,7 +65,14 @@ const getTenant = (pin) => {
 };
 
 const handleKeyPress = (event) => {
-    event.preventDefault();
+    const isAllowedKey =
+        (event.key >= "0" && event.key <= "9") ||
+        (event.key >= "A" && event.key <= "Z") ||
+        (event.key >= "a" && event.key <= "z");
+
+    if (!isAllowedKey) {
+        return;
+    }
 
     const focusedInput = document.activeElement;
 
@@ -70,18 +83,38 @@ const handleKeyPress = (event) => {
 
         const value = pinInputs.value;
 
-        if (event.keyCode === 8 || event.keyCode === 46) {
+        if (
+            event.key === "v" ||
+            event.key === "V" ||
+            event.metaKey ||
+            event.ctrlKey
+        ) {
+            if (
+                (event.metaKey || event.ctrlKey) &&
+                (event.key === "v" || event.key === "V")
+            ) {
+                return;
+            }
+
+            if (event.key !== "v" && event.key !== "V") {
+                return;
+            }
+        }
+
+        event.preventDefault();
+
+        if (event.key === "Backspace" || event.key === "Delete") {
             pinInputs.value[index] = "";
             focusOnPreviousInput();
             return;
         }
 
-        if (event.keyCode === 37) {
+        if (event.key === "ArrowLeft") {
             focusOnPreviousInput();
             return;
         }
 
-        if (event.keyCode === 39) {
+        if (event.key === "ArrowRight") {
             const nextInput = document.getElementById(
                 `pin-input-${parseInt(id.split("-")[2]) + 1}`
             );
@@ -93,9 +126,7 @@ const handleKeyPress = (event) => {
             return;
         }
 
-        if (event.key.length === 1) {
-            pinInputs.value[index] = event.key.toUpperCase();
-        }
+        pinInputs.value[index] = event.key.toUpperCase();
 
         if (index === 4) {
             return;
@@ -146,19 +177,23 @@ const focusOnPreviousInput = () => {
 const pasteValue = (event) => {
     event.preventDefault();
 
-    const pastedData = event.clipboardData.getData("text");
+    const pastedData = event?.clipboardData || window?.clipboardData;
 
-    if (pastedData.length > 5) {
-        return;
+    if (pastedData) {
+        const pastedText = pastedData.getData("text");
+
+        if (pastedText.length > 5) {
+            return;
+        }
+
+        for (let i = 0; i < pastedText.length; i++) {
+            pinInputs.value[i] = pastedText[i];
+        }
+
+        const focusedInput = document.activeElement;
+
+        focusedInput?.blur();
     }
-
-    for (let i = 0; i < pastedData.length; i++) {
-        pinInputs.value[i] = pastedData[i];
-    }
-
-    const focusedInput = document.activeElement;
-
-    focusedInput?.blur();
 };
 </script>
 
@@ -192,6 +227,7 @@ const pasteValue = (event) => {
                             v-model="pinInputs[0]"
                             v-on:keydown="handleKeyPress($event)"
                             v-on:paste="pasteValue($event)"
+                            autocomplete="off"
                             :class="{
                                 'border-red-400 dark:border-red-500':
                                     invalidPin,
@@ -213,6 +249,7 @@ const pasteValue = (event) => {
                                     !invalidPin,
                             }"
                             type="text"
+                            autocomplete="off"
                             :disabled="loading"
                             v-on:keydown="handleKeyPress($event)"
                             class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
@@ -227,6 +264,7 @@ const pasteValue = (event) => {
                                     !invalidPin,
                             }"
                             type="text"
+                            autocomplete="off"
                             :disabled="loading"
                             v-on:keydown="handleKeyPress($event)"
                             class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
@@ -241,6 +279,7 @@ const pasteValue = (event) => {
                                     !invalidPin,
                             }"
                             type="text"
+                            autocomplete="off"
                             :disabled="loading"
                             v-on:keydown="handleKeyPress($event)"
                             class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
@@ -256,6 +295,7 @@ const pasteValue = (event) => {
                                     !invalidPin,
                             }"
                             type="text"
+                            autocomplete="off"
                             class="block w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                     </div>

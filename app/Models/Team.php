@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -11,7 +12,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
  * This model is the APP.
- *
+ * 
  * App\Models\Team
  *
  * @property int $id
@@ -85,10 +86,24 @@ class Team extends JetstreamTeam
         );
     }
 
+    public function shareCode(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => strtoupper($value),
+            get: fn (string $value) => strtoupper($value)
+        );
+    }
+
     public static function generateShareCode(): string
     {
         do {
-            $code = substr(md5(rand()), 0, 8);
+            $codeLetters = Str::random(random_int(1, 3));
+
+            $missingChars = 5 - strlen($codeLetters);
+
+            $code = $codeLetters . random_int(10 ** $missingChars, 10 ** ($missingChars + 1) - 1);
+
+            $code = strtoupper($code);
         } while (static::where('share_code', $code)->exists());
 
         return $code;
