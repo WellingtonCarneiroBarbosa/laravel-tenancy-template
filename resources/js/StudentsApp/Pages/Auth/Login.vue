@@ -79,8 +79,13 @@ watch(
             </div>
 
             <div class="w-full mt-3">
-                <PrimaryButton class="rounded-full px-4 float-end">
-                    COMEÇAR <ArrowRight class="ml-2 w-5 h-5" />
+                <PrimaryButton
+                    @click="form.processing = !form.processing"
+                    :loading="form.processing"
+                    class="rounded-full px-4 float-end"
+                >
+                    COMEÇAR
+                    <ArrowRight v-if="!form.processing" class="ml-2 w-5 h-5" />
                 </PrimaryButton>
             </div>
         </div>
