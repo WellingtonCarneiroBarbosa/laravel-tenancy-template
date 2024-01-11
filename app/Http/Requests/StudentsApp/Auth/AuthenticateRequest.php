@@ -18,7 +18,7 @@ class AuthenticateRequest extends FormRequest
     {
         return [
             'cpf'      => ['required', 'min:11', 'max:14', new CPF()],
-            'password' => ['required', 'min:8', 'max:255'],
+            'password' => ['required', 'max:255'],
         ];
     }
 
