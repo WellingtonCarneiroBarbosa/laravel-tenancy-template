@@ -2,6 +2,7 @@
 import { nextTick, watch, ref } from "vue";
 import TextInput from "@/StudentsApp/Components/TextInput.vue";
 import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
+import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
 import { User, Lock, ArrowRight } from "lucide-vue-next";
 import { useForm } from "@inertiajs/vue3";
 
@@ -34,8 +35,9 @@ watch(
 
 <template>
     <div
-        class="bg-gray-200 dark:bg-gray-900 flex flex-col items-center justify-center content-center text-center h-full min-h-screen w-full px-4"
+        class="transition-colors ease-in duration-500 bg-gray-200 dark:bg-gray-900 flex flex-col items-center justify-center content-center text-center h-full min-h-screen w-full px-4"
     >
+        <ThemeToggler />
         <h1
             class="text-xl mt-2 leading-6 text-center text-gray-600 dark:text-gray-300 font-bold w-4/6"
         >

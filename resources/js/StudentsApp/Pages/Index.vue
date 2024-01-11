@@ -1,6 +1,7 @@
 <script setup>
 import { nextTick, ref, watch } from "vue";
 import axios from "axios";
+import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
 
 const props = defineProps(["someProp"]);
 const pinInputs = ref(["", "", "", "", ""]);
@@ -207,6 +208,7 @@ const pasteValue = (event) => {
     <div
         class="bg-gray-200 dark:bg-gray-900 flex items-center justify-center content-center h-full min-h-screen w-full px-2"
     >
+        <ThemeToggler />
         <section class="lg:px-4 py-20">
             <div
                 class="mx-auto container flex justify-center items-center flex-col"
