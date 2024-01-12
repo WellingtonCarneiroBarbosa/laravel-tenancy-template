@@ -1,4 +1,4 @@
-import "../../node_modules/preline/dist/preline.js";
+import "preline/preline";
 import "./bootstrap";
 import "../css/app.css";
 
@@ -27,6 +27,10 @@ if (window.location.pathname.includes("students-app")) {
             if (coach_app_id !== null) {
                 localStorage.setItem("coach_app_id", coach_app_id);
             }
+
+            setTimeout(() => {
+                window.HSStaticMethods.autoInit();
+            }, 100);
 
             return createApp({
                 render: () => {
