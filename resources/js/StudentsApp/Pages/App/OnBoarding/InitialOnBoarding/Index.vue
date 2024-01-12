@@ -24,7 +24,7 @@ const responses = ref([]);
 watch(
     () => responses.value,
     (responses) => {
-        console.log(responses);
+        //
     },
     { deep: true }
 );
