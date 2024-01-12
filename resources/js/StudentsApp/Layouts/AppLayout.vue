@@ -1,5 +1,12 @@
 <script setup>
 import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
+import { onMounted } from "vue";
+
+onMounted(() => {
+    setTimeout(() => {
+        window.HSStaticMethods.autoInit();
+    }, 100);
+});
 </script>
 
 <template>
