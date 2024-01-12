@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import AppLayout from "@/StudentsApp/Layouts/AppLayout.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/StudentsApp/Components/TextInput.vue";
@@ -8,6 +8,8 @@ import SelectInput from "@/StudentsApp/Components/SelectInput.vue";
 import RadioInput from "@/StudentsApp/Components/RadioInput.vue";
 import CheckboxInput from "@/StudentsApp/Components/CheckboxInput.vue";
 import FormSection from "@/StudentsApp/Components/FormSection.vue";
+import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import collect from "collect.js";
 
 const props = defineProps({
@@ -18,6 +20,14 @@ const props = defineProps({
 });
 
 const responses = ref([]);
+
+watch(
+    () => responses.value,
+    (responses) => {
+        console.log(responses);
+    },
+    { deep: true }
+);
 
 const currentStep = ref(null);
 
@@ -31,11 +41,15 @@ const questions = computed(() => {
     return collect(props.onBoardingForm.questions);
 });
 
-const setCurrentQuestions = (currentStepIndex) => {
+const setCurrentQuestions = (currentStepIndex, isPrevious = false) => {
     currentQuestions.value = questions.value
-        .where("step", currentStepIndex + 1)
+        .where("step", currentStepIndex)
         .sortBy("questions.order")
         .all()[0];
+
+    if (isPrevious) {
+        return;
+    }
 
     currentQuestions.value.questions = collect(currentQuestions.value.questions)
         .map((question) => {
@@ -67,25 +81,98 @@ const setCurrentQuestions = (currentStepIndex) => {
     });
 
     currentQuestions.value.questions.forEach((question, index) => {
-        responses.value[currentStepIndex].questions.push(() => {
-            let base = {
-                input_id: `step_${currentQuestions.value.step}_question_${index}_input`,
-                input_type: question.input_type,
-                input_value: "",
-            };
+        let base = {
+            input_id: `step_${currentQuestions.value.step}_question_${index}_input`,
+            input_type: question.input_type,
+            input_value: "",
+        };
 
-            if (question.input_type === "checkbox") {
-                base.input_value = [];
+        if (question.input_type === "checkbox") {
+            base.input_value = [];
+        }
+
+        responses.value[currentStepIndex - 1].questions.push(base);
+    });
+};
+
+const goToNextStep = () => {
+    if (currentStep.value.order === steps.value.last().order) {
+        return;
+    }
+
+    let allQuestionsAnswered = true;
+
+    responses.value[currentStep.value.order - 1].questions.forEach(
+        (question) => {
+            if (
+                question.input_value === "" ||
+                question.input_value?.length === 0
+            ) {
+                allQuestionsAnswered = false;
             }
+        }
+    );
 
-            return base;
+    if (!allQuestionsAnswered) {
+        alert("Por favor, responda todas as perguntas antes de continuar.");
+        return;
+    }
+
+    currentStep.value = steps.value
+        .where("order", currentStep.value.order + 1)
+        .all()[0];
+
+    if (
+        responses.value.filter(
+            (response) => response.step === currentStep.value.order
+        ).length === 0
+    ) {
+        setCurrentQuestions(currentStep.value.order);
+    } else {
+        setCurrentQuestions(currentStep.value.order, true);
+    }
+};
+
+const goToPreviousStep = () => {
+    if (currentStep.value.order === steps.value.first().order) {
+        return;
+    }
+
+    currentStep.value = steps.value
+        .where("order", currentStep.value.order - 1)
+        .all()[0];
+
+    setCurrentQuestions(currentStep.value.order, true);
+};
+
+const save = () => {
+    let passed = true;
+
+    responses.value.forEach((response) => {
+        response.questions.forEach((question) => {
+            if (
+                question.input_value === "" ||
+                question.input_value?.length === 0
+            ) {
+                alert(
+                    "Por favor, responda todas as perguntas antes de continuar."
+                );
+                passed = false;
+                return;
+            }
         });
     });
+
+    if (!passed) {
+        return;
+    }
+
+    alert("Salvo com sucesso!");
 };
 
 onMounted(() => {
     currentStep.value = steps.value.first();
-    setCurrentQuestions(0);
+    setCurrentQuestions(1);
 });
 </script>
 
@@ -190,7 +277,39 @@ onMounted(() => {
                     </div>
                 </template>
 
-                <template #actions> Ações </template>
+                <template #actions>
+                    <SecondaryButton
+                        class="mt-5"
+                        @click="goToPreviousStep"
+                        v-if="currentStep.order !== steps.toArray()[0]?.order"
+                        type="button"
+                    >
+                        Voltar
+                    </SecondaryButton>
+
+                    <PrimaryButton
+                        class="mt-5 ml-2"
+                        @click="goToNextStep"
+                        v-if="
+                            currentStep.order !==
+                            steps.toArray()[steps.toArray().length - 1]?.order
+                        "
+                        type="button"
+                    >
+                        Próximo
+                    </PrimaryButton>
+
+                    <PrimaryButton
+                        class="mt-5 ml-2"
+                        @click="save"
+                        v-if="
+                            currentStep.order ===
+                            steps.toArray()[steps.toArray().length - 1]?.order
+                        "
+                    >
+                        Salvar
+                    </PrimaryButton>
+                </template>
             </FormSection>
         </div>
     </AppLayout>

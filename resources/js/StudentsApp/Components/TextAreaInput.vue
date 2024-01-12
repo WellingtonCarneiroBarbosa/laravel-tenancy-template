@@ -47,6 +47,7 @@ defineExpose({ focus: () => input.value.focus() });
                     valid,
                 'pl-9': icon,
             }"
+            autocomplete="off"
             @input="$emit('update:modelValue', $event.target.value)"
             class="py-2 px-4 bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:text-gray-400 block w-full rounded-lg transition-colors duration-150 ease-in"
             required

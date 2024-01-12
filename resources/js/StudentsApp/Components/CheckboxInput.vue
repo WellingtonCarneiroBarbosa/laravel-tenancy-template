@@ -2,7 +2,7 @@
 import { onMounted, ref, useAttrs } from "vue";
 
 const props = defineProps({
-    modelValue: String,
+    modelValue: Array,
     loading: Boolean,
     id: String,
     options: Array,
@@ -19,17 +19,21 @@ const props = defineProps({
 
 const attrs = useAttrs();
 
-defineEmits(["update:modelValue"]);
-
-const input = ref(null);
-
-onMounted(() => {
-    if (input.value.hasAttribute("autofocus")) {
-        input.value.focus();
-    }
-});
+const emit = defineEmits(["update:modelValue"]);
 
 defineExpose({ focus: () => input.value.focus() });
+
+const handleCheckboxChange = (event, value) => {
+    let values = props.modelValue;
+
+    if (event.target.checked) {
+        values.push(value);
+    } else {
+        values = values.filter((item) => item !== value);
+    }
+
+    emit("update:modelValue", values);
+};
 </script>
 
 <template>
@@ -49,7 +53,8 @@ defineExpose({ focus: () => input.value.focus() });
                     :name="id"
                     v-bind="attrs"
                     :value="option.value"
-                    @change="$emit('update:modelValue', $event.target.value)"
+                    :checked="modelValue.includes(option.value)"
+                    @change="handleCheckboxChange($event, option.value)"
                     class="shrink-0 h-4 w-4 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                 />
 
