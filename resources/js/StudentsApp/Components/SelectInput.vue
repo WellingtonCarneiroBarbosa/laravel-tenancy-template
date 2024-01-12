@@ -1,6 +1,6 @@
 <script setup>
 import { HSSelect } from "preline";
-import { nextTick, onMounted, ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 
 const select = ref(null);
 
