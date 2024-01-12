@@ -24,7 +24,7 @@ const responses = ref([]);
 watch(
     () => responses.value,
     (responses) => {
-        //
+        console.log(responses);
     },
     { deep: true }
 );
@@ -179,7 +179,7 @@ onMounted(() => {
 <template>
     <AppLayout>
         <div
-            class="flex flex-col items-start text-left w-full my-10"
+            class="flex flex-col items-start text-left w-full"
             v-if="currentStep !== null"
         >
             <FormSection class="w-full">
@@ -278,37 +278,48 @@ onMounted(() => {
                 </template>
 
                 <template #actions>
-                    <SecondaryButton
-                        class="mt-5"
-                        @click="goToPreviousStep"
-                        v-if="currentStep.order !== steps.toArray()[0]?.order"
-                        type="button"
-                    >
-                        Voltar
-                    </SecondaryButton>
+                    <div class="flex items-center justify-end">
+                        <SecondaryButton
+                            class="mt-5"
+                            @click="goToPreviousStep"
+                            v-if="
+                                currentStep.order !== steps.toArray()[0]?.order
+                            "
+                            type="button"
+                        >
+                            Voltar
+                        </SecondaryButton>
 
-                    <PrimaryButton
-                        class="mt-5 ml-2"
-                        @click="goToNextStep"
-                        v-if="
-                            currentStep.order !==
-                            steps.toArray()[steps.toArray().length - 1]?.order
-                        "
-                        type="button"
-                    >
-                        Próximo
-                    </PrimaryButton>
+                        <PrimaryButton
+                            class="mt-5 ml-2"
+                            @click="goToNextStep"
+                            v-if="
+                                currentStep.order !==
+                                steps.toArray()[steps.toArray().length - 1]
+                                    ?.order
+                            "
+                            type="button"
+                        >
+                            Próximo
+                        </PrimaryButton>
 
-                    <PrimaryButton
-                        class="mt-5 ml-2"
-                        @click="save"
-                        v-if="
-                            currentStep.order ===
-                            steps.toArray()[steps.toArray().length - 1]?.order
-                        "
-                    >
-                        Salvar
-                    </PrimaryButton>
+                        <PrimaryButton
+                            class="mt-5 ml-2"
+                            @click="save"
+                            v-if="
+                                currentStep.order ===
+                                steps.toArray()[steps.toArray().length - 1]
+                                    ?.order
+                            "
+                        >
+                            Salvar
+                        </PrimaryButton>
+                    </div>
+
+                    <div class="text-right mt-1 pb-3 pr-1">
+                        Passo {{ currentStep.order }} de
+                        {{ steps.toArray().length }}
+                    </div>
                 </template>
             </FormSection>
         </div>

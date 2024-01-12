@@ -1,7 +1,33 @@
 <script setup>
-import { onMounted, ref, useAttrs } from "vue";
+import { HSSelect } from "preline";
+import { nextTick, onMounted, ref, watch } from "vue";
+
+const select = ref(null);
+
+watch(
+    () => select.value,
+    (val) => {
+        if (val) {
+            nextTick(() => {
+                const interval = setInterval(() => {
+                    const select = HSSelect.getInstance(`#${props.id}`);
+
+                    if (select) {
+                        select.on("change", (val) => {
+                            emit("update:modelValue", val);
+                        });
+
+                        clearInterval(interval);
+                    }
+                }, 500);
+            });
+        }
+    },
+    { immediate: true }
+);
 
 const props = defineProps({
+    id: String,
     modelValue: String,
     loading: Boolean,
     options: Array,
@@ -16,24 +42,13 @@ const props = defineProps({
     },
 });
 
-const attrs = useAttrs();
-
-defineEmits(["update:modelValue"]);
-
-const input = ref(null);
-
-onMounted(() => {
-    if (input.value.hasAttribute("autofocus")) {
-        input.value.focus();
-    }
-});
-
-defineExpose({ focus: () => input.value.focus() });
+const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
     <div class="relative">
         <select
+            ref="select"
             data-hs-select='{
                 "placeholder": "Por favor, selecione",
                 "toggleTag": "<button type=\"button\"></button>",
@@ -52,9 +67,8 @@ defineExpose({ focus: () => input.value.focus() });
                 'pl-9': icon,
             }"
             class="hidden"
-            @change="$emit('update:modelValue', $event.target.value)"
-            ref="input"
-            v-bind="attrs"
+            :id="id"
+            v-bind="$attrs"
             :value="modelValue"
             :disabled="loading"
         >

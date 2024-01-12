@@ -8,6 +8,8 @@ import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
     >
         <ThemeToggler />
 
-        <slot />
+        <div class="my-10 sm:my-14">
+            <slot />
+        </div>
     </div>
 </template>
