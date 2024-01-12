@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Tenant;
 
+use App\Models\Application\OnBoardingForm;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +16,10 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 UserSeeder::class,
             ]);
+
+            OnBoardingForm::factory(1, [
+                'is_initial' => true,
+            ])->create();
         }
     }
 }

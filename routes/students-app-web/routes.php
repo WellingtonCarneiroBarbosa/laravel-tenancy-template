@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\StudentsApp\Auth\LoginController;
+use App\Http\Controllers\StudentsApp\OnBoarding\InitialOnBoardingController;
 use App\Http\Middleware\StudentsApp\Authenticated;
+use App\Http\Middleware\StudentsApp\HasCompletedInitialOnBoarding;
 use App\Http\Middleware\StudentsApp\KeepSessionForeverToAuthenticatedUsers;
 use App\Http\Middleware\StudentsApp\RedirectIfAuthenticated;
 use Inertia\Inertia;
@@ -21,7 +23,7 @@ Route::prefix('/students-app')
         Route::prefix("/{tenant}")->middleware([
             InitializeTenancyByPath::class,
             ScopeSessions::class,
-        ])->name('initialized-app.')->group(function () {
+        ])->group(function () {
             Route::prefix('/auth')->middleware([
                 RedirectIfAuthenticated::class,
             ])->name('auth.')->group(function () {
@@ -31,10 +33,16 @@ Route::prefix('/students-app')
 
             Route::middleware([
                 Authenticated::class . ':sanctum',
-            ])->prefix('/app')->group(function () {
-                Route::get('/', function () {
-                    return 'home';
-                })->name('home');
+            ])->name('app.')->prefix('/app')->group(function () {
+                Route::middleware([
+                    HasCompletedInitialOnBoarding::class,
+                ])->group(function () {
+                    Route::get('/', function () {
+                        return Inertia::render('App/Home');
+                    })->name('home');
+                });
+
+                Route::get('/initial-on-boarding', InitialOnBoardingController::class)->name('initial-on-boarding');
             });
         });
     });

@@ -100,7 +100,10 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at'                => 'datetime',
+        'on_boarding_completed_at'         => 'datetime',
+        'next_cycle_at'                    => 'datetime',
+        'initial_on_boarding_completed_at' => 'datetime',
     ];
 
     /**

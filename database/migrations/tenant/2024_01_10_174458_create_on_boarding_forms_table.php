@@ -16,6 +16,8 @@ return new class () extends Migration {
             $table->json('steps');
             $table->json('questions');
 
+            $table->boolean('is_initial')->default(false);
+
             $table->timestamps();
         });
     }

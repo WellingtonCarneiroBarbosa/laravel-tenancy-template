@@ -7,8 +7,8 @@ import { User, Lock, ArrowRight } from "lucide-vue-next";
 import { useForm } from "@inertiajs/vue3";
 
 const form = useForm({
-    cpf: "",
-    password: "",
+    cpf: "86009088097",
+    password: "password",
 });
 
 const validCpf = ref(false);
@@ -44,7 +44,7 @@ watch(
 
 const authenticate = () => {
     form.post(
-        route("students-app.initialized-app.auth.login", {
+        route("students-app.auth.login", {
             tenant: localStorage.getItem("coach_app_id"),
         })
     );

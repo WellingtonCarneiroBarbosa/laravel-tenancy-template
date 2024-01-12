@@ -2,8 +2,10 @@
 
 namespace App\Models\Application;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Application\OnBoardingForm
@@ -26,4 +28,29 @@ class OnBoardingForm extends Model
         'steps'     => 'collection',
         'questions' => 'collection',
     ];
+
+    public function questions(): Attribute
+    {
+        return Attribute::make(
+            set: function (array $value) {
+                foreach ($value as $key => $questions) {
+                    foreach ($questions['questions'] as $questionKey => $question) {
+                        $question['input_name'] = str_replace(
+                            '-',
+                            '_',
+                            preg_replace(
+                                '/[^A-Za-z0-9\-]/',
+                                '',
+                                Str::slug($question['title'])
+                            )
+                        );
+
+                        $value[$key]['questions'][$questionKey] = $question;
+                    }
+                }
+
+                return collect($value);
+            }
+        );
+    }
 }

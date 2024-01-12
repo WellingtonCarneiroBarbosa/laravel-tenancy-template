@@ -20,6 +20,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "collect.js": "^4.36.1",
         "lucide-vue-next": "^0.309.0",
         "maska": "^2.1.11",
         "preline": "^2.0.3"

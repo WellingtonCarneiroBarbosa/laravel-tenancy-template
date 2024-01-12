@@ -44,7 +44,7 @@ const getTenant = (pin) => {
             route("api.coach-app.find-tenant-by-share-code", { shareCode: pin })
         )
         .then((response) => {
-            let redirectRoute = route("students-app.initialized-app.home", {
+            let redirectRoute = route("students-app.app.home", {
                 tenant: response.data.id,
             });
 
@@ -213,7 +213,7 @@ onMounted(() => {
         coach_app_id !== undefined &&
         coach_app_id !== ""
     ) {
-        window.location.href = route("students-app.initialized-app.home", {
+        window.location.href = route("students-app.app.home", {
             tenant: coach_app_id,
         });
 

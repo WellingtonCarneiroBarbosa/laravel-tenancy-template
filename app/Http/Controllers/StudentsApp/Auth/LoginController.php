@@ -45,7 +45,7 @@ class LoginController extends Controller
         });
 
         return Inertia::resolved(function () {
-            return redirect()->intended(route('students-app.initialized-app.home', [
+            return redirect()->intended(route('students-app.app.home', [
                 'tenant' => tenant('id'),
             ]));
         });

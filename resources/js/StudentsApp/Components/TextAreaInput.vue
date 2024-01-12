@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref, useAttrs, reactive } from "vue";
-import { vMaska } from "maska";
 
 const props = defineProps({
     modelValue: String,
@@ -13,7 +12,6 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    mask: Object | null | undefined,
     loading: Boolean,
     message: String | null | undefined,
 });
@@ -35,7 +33,7 @@ defineExpose({ focus: () => input.value.focus() });
 
 <template>
     <div class="relative w-full">
-        <input
+        <textarea
             ref="input"
             v-bind="attrs"
             :value="modelValue"
@@ -49,12 +47,11 @@ defineExpose({ focus: () => input.value.focus() });
                     valid,
                 'pl-9': icon,
             }"
-            v-maska:[mask]
             @input="$emit('update:modelValue', $event.target.value)"
             class="py-2 px-4 bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:text-gray-400 block w-full rounded-lg transition-colors duration-150 ease-in"
             required
             aria-describedby="hs-validation-name-error-helper"
-        />
+        >
         <div
             v-if="icon"
             class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none"
@@ -104,6 +101,7 @@ defineExpose({ focus: () => input.value.focus() });
                 <polyline points="20 6 9 17 4 12" />
             </svg>
         </div>
+        </textarea>
     </div>
     <p
         class="mt-1 text-left text-sm"

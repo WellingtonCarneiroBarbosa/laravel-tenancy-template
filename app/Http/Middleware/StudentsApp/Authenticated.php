@@ -24,7 +24,7 @@ class Authenticated
     protected function redirectTo(Request $request): ?string
     {
         return $request->expectsJson() ? null : (
-            tenant()?->id ? route('students-app.initialized-app.auth.login', [
+            tenant()?->id ? route('students-app.auth.login', [
                 'tenant' => tenant()->id,
             ]) : route('students-app.index')
         );
