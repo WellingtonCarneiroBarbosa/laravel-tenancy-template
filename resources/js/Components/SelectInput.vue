@@ -32,7 +32,7 @@ const emit = defineEmits(["update:modelValue"]);
             'border-teal-500 focus:border-teal-500 focus:ring-teal-500': valid,
             'pl-9': icon,
         }"
-        class="py-2 px-4 w-full text-sm text-gray-800 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-lg focus:outline-none focus:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800"
+        class="py-2 px-4 w-full text-sm rounded-lg focus:outline-none border-gray-300 dark:border-gray-700 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
         @change="$emit('update:modelValue', $event.target.value)"
         :id="id"
         v-bind="$attrs"

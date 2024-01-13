@@ -4,13 +4,23 @@ import { useForm } from "@inertiajs/vue3";
 import FormSection from "@/Components/FormSection.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import SelectInput from "@/Components/SelectInput.vue";
-import { Pencil, Check, Plus, X } from "lucide-vue-next";
+import {
+    Pencil,
+    Check,
+    Plus,
+    X,
+    MoveLeft,
+    MoveRight,
+    Minus,
+} from "lucide-vue-next";
+import TextInput from "@/Components/TextInput.vue";
+import TextAreaInput from "@/StudentsApp/Components/TextAreaInput.vue";
 
 const form = useForm({
     steps: [
         {
             step: 1,
-            title: "",
+            title: "Passo 1",
             description: "",
         },
     ],
@@ -37,9 +47,11 @@ const form = useForm({
 const currentStepIndex = ref(0);
 
 const addQuestion = () => {
-    form.questions[0].questions.push({
+    form.questions[currentStepIndex.value].questions.push({
         type: "",
-        question: `Pergunta ${form.questions[0].questions.length + 1}`,
+        question: `Pergunta ${
+            form.questions[currentStepIndex.value].questions.length + 1
+        }`,
         showEditInputLabel: false,
         options: [
             {
@@ -58,22 +70,64 @@ const addOption = (question) => {
 };
 
 const removeQuestion = (index) => {
-    form.questions[0].questions.splice(index, 1);
+    form.questions[currentStepIndex.value].questions.splice(index, 1);
 };
 
 const removeOption = (question, index) => {
     question.options.splice(index, 1);
 };
+
+const addStep = () => {
+    form.steps.push({
+        step: form.steps.length + 1,
+        title: `Passo ${form.steps.length + 1}`,
+        description: "",
+    });
+
+    form.questions.push({
+        step: form.steps.length,
+        questions: [
+            {
+                type: "",
+                question: `Pergunta 1`,
+                showEditInputLabel: false,
+                options: [
+                    {
+                        label: "Opção 1",
+                        showEditInputLabel: false,
+                    },
+                ],
+            },
+        ],
+    });
+
+    currentStepIndex.value = form.steps.length - 1;
+};
+
+const removeStep = (index) => {
+    form.steps.splice(index, 1);
+    form.questions.splice(index, 1);
+
+    if (currentStepIndex.value === form.steps.length) {
+        currentStepIndex.value--;
+    }
+};
 </script>
 
 <template>
-    <FormSection>
-        <template #title> Passo 1 </template>
+    <FormSection
+        :form-classes="{
+            'px-4 py-5 sm:p-6 shadow': true,
+            'bg-gray-400 dark:bg-gray-800': currentStepIndex % 2 === 0,
+            'bg-gray-200 dark:bg-gray-700': currentStepIndex % 2 !== 0,
+        }"
+    >
+        <template #title> Passo {{ currentStepIndex + 1 }} </template>
 
         <template #description>
-            <p class="text-gray-500 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 Insira as perguntas que serão feitas no formulário de OnBoarding
-                no passo 1.
+                no passo {{ currentStepIndex + 1 }}.
 
                 <br />
                 <br />
@@ -84,12 +138,71 @@ const removeOption = (question, index) => {
         </template>
 
         <template #form>
+            <div class="col-span-12">
+                <InputLabel
+                    :class="{
+                        'block font-medium text-sm': true,
+                        'text-white dark:text-gray-400':
+                            currentStepIndex % 2 === 0,
+                        'text-gray-700 dark:text-gray-300':
+                            currentStepIndex % 2 !== 0,
+                    }"
+                    :for="`step_${currentStepIndex}_title`"
+                    value="Título do Passo:"
+                />
+
+                <TextInput
+                    :id="`step_${currentStepIndex}_title`"
+                    class="mt-1 w-full"
+                    v-model="form.steps[currentStepIndex].title"
+                    required
+                />
+            </div>
+
+            <div class="col-span-12 mt-2">
+                <InputLabel
+                    :class="{
+                        'block font-medium text-sm': true,
+                        'text-white dark:text-gray-400':
+                            currentStepIndex % 2 === 0,
+                        'text-gray-700 dark:text-gray-300':
+                            currentStepIndex % 2 !== 0,
+                    }"
+                    :for="`step_${currentStepIndex}_description`"
+                    value="Descrição do Passo:"
+                />
+
+                <TextAreaInput
+                    :id="`step_${currentStepIndex}_description`"
+                    class="mt-1 w-full"
+                    v-model="form.steps[currentStepIndex].description"
+                />
+
+                <hr
+                    class="w-full my-3 mt-10"
+                    :class="{
+                        'border-gray-300 dark:border-gray-700':
+                            currentStepIndex % 2 === 0,
+                        'border-gray-700 dark:border-gray-300':
+                            currentStepIndex % 2 !== 0,
+                    }"
+                />
+            </div>
+
             <div
                 class="col-span-12"
-                v-for="(question, key) in form.questions[0].questions"
+                v-for="(question, key) in form.questions[currentStepIndex]
+                    .questions"
             >
                 <div class="flex gap-x-2">
                     <InputLabel
+                        :class="{
+                            'block font-medium text-sm': true,
+                            'text-white dark:text-gray-400':
+                                currentStepIndex % 2 === 0,
+                            'text-gray-700 dark:text-gray-300':
+                                currentStepIndex % 2 !== 0,
+                        }"
                         :for="`step_${currentStepIndex}_question_${key}`"
                         v-if="!question.showEditInputLabel"
                         :value="question.question"
@@ -99,6 +212,7 @@ const removeOption = (question, index) => {
                         class="w-full rounded-md h-5 p-4"
                         v-model="question.question"
                         v-if="question.showEditInputLabel"
+                        @keypress.enter="question.showEditInputLabel = false"
                     />
 
                     <button
@@ -107,6 +221,14 @@ const removeOption = (question, index) => {
                     >
                         <Pencil
                             class="w-4 h-4 text-gray-800 dark:text-gray-500"
+                        />
+                    </button>
+
+                    <div class="flex-grow" />
+
+                    <button @click="removeQuestion(key)" v-if="key !== 0">
+                        <X
+                            class="w-4 h-4 text-gray-800 dark:text-gray-500 mr-1"
                         />
                     </button>
 
@@ -148,6 +270,13 @@ const removeOption = (question, index) => {
                         v-for="(option, key) in question.options"
                     >
                         <InputLabel
+                            :class="{
+                                'block font-medium text-sm': true,
+                                'text-white dark:text-gray-400':
+                                    currentStepIndex % 2 === 0,
+                                'text-gray-700 dark:text-gray-300':
+                                    currentStepIndex % 2 !== 0,
+                            }"
                             for="question"
                             v-if="!option.showEditInputLabel"
                             :value="option.label"
@@ -157,6 +286,7 @@ const removeOption = (question, index) => {
                             class="w-full rounded-md h-5 p-4"
                             v-model="option.label"
                             v-if="option.showEditInputLabel"
+                            @keypress.enter="option.showEditInputLabel = false"
                         />
 
                         <button
@@ -202,7 +332,11 @@ const removeOption = (question, index) => {
                         type="button"
                         class="btn btn-sm btn-outline-primary bg-gray-200 p-2 rounded-md text-sm flex items-center justify-center"
                         @click="addQuestion"
-                        v-if="key === form.questions[0].questions.length - 1"
+                        v-if="
+                            key ===
+                            form.questions[currentStepIndex].questions.length -
+                                1
+                        "
                     >
                         <Plus
                             class="w-4 h-4 text-gray-800 dark:text-gray-500"
@@ -213,11 +347,80 @@ const removeOption = (question, index) => {
 
                 <hr
                     class="mt-5"
-                    v-if="key !== form.questions[0].questions.length - 1"
+                    :class="{
+                        'border-gray-300 dark:border-gray-700':
+                            currentStepIndex % 2 === 0,
+                        'border-gray-700 dark:border-gray-300':
+                            currentStepIndex % 2 !== 0,
+                    }"
+                    v-if="
+                        key !==
+                        form.questions[currentStepIndex].questions.length - 1
+                    "
                 />
             </div>
         </template>
 
-        <template #actions> </template>
+        <template #actions>
+            <div class="flex flex-col">
+                <div>
+                    <button
+                        type="button"
+                        @click="currentStepIndex--"
+                        :disabled="currentStepIndex === 0"
+                        v-if="currentStepIndex !== 0"
+                    >
+                        <MoveLeft
+                            class="w-6 h-6 text-gray-800 dark:text-gray-500 mr-2"
+                        />
+                    </button>
+
+                    <button
+                        type="button"
+                        @click="currentStepIndex++"
+                        :disabled="currentStepIndex === form.steps.length - 1"
+                        v-if="
+                            currentStepIndex !== form.steps.length - 1 &&
+                            form.steps.length > 1
+                        "
+                    >
+                        <MoveRight
+                            class="w-6 h-6 text-gray-800 dark:text-gray-500"
+                        />
+                    </button>
+                </div>
+
+                <div class="mt-2">
+                    <button
+                        class="rounded-md text-gray-800 dark:text-gray-500 text-sm mr-3"
+                        type="button"
+                        @click="removeStep(currentStepIndex)"
+                        v-if="form.steps.length > 1"
+                    >
+                        <div class="flex items-center justify-center">
+                            <Minus class="w-4 h-4" />
+                            Remover Etapa
+                        </div>
+                    </button>
+
+                    <button
+                        class="rounded-md text-gray-800 dark:text-gray-500 text-sm mr-2"
+                        type="button"
+                        @click="addStep"
+                    >
+                        <div class="flex items-center justify-center">
+                            <Plus class="w-4 h-4" />
+                            Adicionar Etapa
+                        </div>
+                    </button>
+                    <button
+                        class="mt-2 bg-blue-700 p-2 rounded-md text-white text-sm ml-2"
+                        type="button"
+                    >
+                        Finalizar e Salvar
+                    </button>
+                </div>
+            </div>
+        </template>
     </FormSection>
 </template>
