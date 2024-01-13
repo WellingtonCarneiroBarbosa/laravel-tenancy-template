@@ -22,9 +22,10 @@ class CreateController extends Controller
 
         $onBoarding->forceFill($data)->save();
 
-        return response()->json([
-            'message' => 'Onboarding form created',
-            'data'    => $onBoarding,
-        ], 201);
+        return redirect()->route('app.on-boarding-form.index')
+            ->with('flash', [
+                'type'    => 'success',
+                'message' => 'Formulário de Onboarding criado com sucesso!',
+            ]);
     }
 }

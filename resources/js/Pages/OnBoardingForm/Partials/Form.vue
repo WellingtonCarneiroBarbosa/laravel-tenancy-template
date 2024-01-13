@@ -30,7 +30,7 @@ const currentStepIndex = ref(0);
 const addQuestion = () => {
     props.form.questions[currentStepIndex.value].questions.push({
         type: "",
-        question: `Pergunta ${
+        title: `Pergunta ${
             props.form.questions[currentStepIndex.value].questions.length + 1
         }`,
         showEditInputLabel: false,
@@ -60,7 +60,7 @@ const removeOption = (question, index) => {
 
 const addStep = () => {
     props.form.steps.push({
-        step: props.form.steps.length + 1,
+        order: props.form.steps.length + 1,
         title: `Passo ${props.form.steps.length + 1}`,
         description: "",
     });
@@ -70,7 +70,7 @@ const addStep = () => {
         questions: [
             {
                 type: "",
-                question: `Pergunta 1`,
+                title: `Pergunta 1`,
                 showEditInputLabel: false,
                 options: [
                     {
@@ -221,12 +221,12 @@ const save = () => {
                         }"
                         :for="`step_${currentStepIndex}_question_${key}`"
                         v-if="!question.showEditInputLabel"
-                        :value="question.question"
+                        :value="question.title"
                     />
                     <input
                         type="text"
                         class="w-full rounded-md h-5 p-4"
-                        v-model="question.question"
+                        v-model="question.title"
                         v-if="question.showEditInputLabel"
                         @keypress.enter="question.showEditInputLabel = false"
                     />

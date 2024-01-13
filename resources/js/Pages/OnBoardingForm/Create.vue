@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/vue3";
 const form = useForm({
     steps: [
         {
-            step: 1,
+            order: 1,
             title: "Passo 1",
             description: "",
         },
@@ -18,7 +18,7 @@ const form = useForm({
             questions: [
                 {
                     type: "",
-                    question: "Pergunta 1",
+                    title: "Pergunta 1",
                     showEditInputLabel: false,
                     options: [
                         {

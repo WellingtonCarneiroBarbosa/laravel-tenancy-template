@@ -15,7 +15,7 @@ class CreateRequest extends FormRequest
             $questions[$stepKey]['questions'] = array_map(function ($question) {
                 $base = [
                     'type'     => $question['type'] ?? null,
-                    'question' => $question['question'] ?? null,
+                    'title'    => $question['title'] ?? null,
                     'options'  => $question['options'] ?? [],
                 ];
 
@@ -48,10 +48,13 @@ class CreateRequest extends FormRequest
         return [
             'steps' => ['required', 'array', 'min:1'],
 
-            'steps.*.title' => ['required', 'string', 'min:1', 'max:255'],
+            'steps.*.title'       => ['required', 'string', 'min:1', 'max:255'],
+            'steps.*.order'       => ['required', 'int', 'min:1', 'max:255'],
+            'steps.*.description' => ['sometimes', 'nullable', 'string', 'min:1', 'max:5000'],
 
             'questions' => ['required', 'array', "min:{$stepsLength}"],
 
+            'questions.questions.*.step'       => ['required', 'int', 'min:1', 'max:255'],
             'questions.questions.*.title'      => ['required', 'string', 'min:1', 'max:255'],
             'questions.questions.*.type'       => ['required', 'string', 'min:1', 'max:255', 'in:text,textarea,select,checkbox,radio'],
 

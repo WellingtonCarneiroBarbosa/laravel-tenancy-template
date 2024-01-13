@@ -30,9 +30,12 @@ class CreateInitialController extends Controller
 
         $onBoarding->forceFill($data)->save();
 
-        return response()->json([
-            'message' => 'Initial onboarding form created',
-            'data'    => $onBoarding,
-        ], 201);
+        return Inertia::resolved(function () {
+            return redirect()->route('app.on-boarding-form.index')
+                ->with('flash', [
+                    'type'    => 'success',
+                    'message' => 'Formulário de Onboarding criado com sucesso!',
+                ]);
+        });
     }
 }
