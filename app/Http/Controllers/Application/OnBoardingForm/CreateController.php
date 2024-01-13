@@ -11,7 +11,7 @@ class CreateController extends Controller
 {
     public function __invoke()
     {
-        return Inertia::render('Application/OnBoardingForm/Create');
+        return Inertia::render('OnBoardingForm/Create');
     }
 
     public function store(OnBoardingFormCreateRequest $request)

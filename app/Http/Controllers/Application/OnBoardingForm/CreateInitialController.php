@@ -9,6 +9,6 @@ class CreateInitialController extends Controller
 {
     public function __invoke()
     {
-        return Inertia::render('Application/OnBoardingForm/CreateInitial');
+        return Inertia::render('OnBoardingForm/CreateInitial');
     }
 }
