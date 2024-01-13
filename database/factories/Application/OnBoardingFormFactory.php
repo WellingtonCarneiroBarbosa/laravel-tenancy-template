@@ -53,7 +53,7 @@ class OnBoardingFormFactory extends Factory
                     return [
                         'title'                 => $this->faker->sentence,
                         'description'           => $this->faker->paragraph,
-                        'input_type'            => $inputType,
+                        'type'                  => $inputType,
                         'input_options_values'  => $inputOptionsValues,
                         'input_options_labels'  => $inputOptionsLabels,
                         'order'                 => $question,

@@ -18,6 +18,8 @@ class CreateController extends Controller
     {
         $data = $request->validated();
 
+        dd($data);
+
         $tenant = tenant();
 
         if (OnBoardingForm::whereApplicationId($tenant->id)->exists()) {

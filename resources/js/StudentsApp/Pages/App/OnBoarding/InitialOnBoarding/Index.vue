@@ -54,9 +54,9 @@ const setCurrentQuestions = (currentStepIndex, isPrevious = false) => {
     currentQuestions.value.questions = collect(currentQuestions.value.questions)
         .map((question) => {
             if (
-                question.input_type === "select" ||
-                question.input_type === "radio" ||
-                question.input_type === "checkbox"
+                question.type === "select" ||
+                question.type === "radio" ||
+                question.type === "checkbox"
             ) {
                 let labels = question.input_options_labels;
                 let values = question.input_options_values;
@@ -83,11 +83,11 @@ const setCurrentQuestions = (currentStepIndex, isPrevious = false) => {
     currentQuestions.value.questions.forEach((question, index) => {
         let base = {
             input_id: `step_${currentQuestions.value.step}_question_${index}_input`,
-            input_type: question.input_type,
+            type: question.type,
             input_value: "",
         };
 
-        if (question.input_type === "checkbox") {
+        if (question.type === "checkbox") {
             base.input_value = [];
         }
 
@@ -199,7 +199,7 @@ onMounted(() => {
                             class="pl-1"
                         />
 
-                        <template v-if="question.input_type === 'text'">
+                        <template v-if="question.type === 'text'">
                             <TextInput
                                 class="w-full mt-1"
                                 :id="`step_${currentQuestions.step}_question_${index}_input`"
@@ -212,7 +212,7 @@ onMounted(() => {
                             />
                         </template>
 
-                        <template v-if="question.input_type === 'select'">
+                        <template v-if="question.type === 'select'">
                             <SelectInput
                                 class="w-full py-0 mt-1"
                                 :id="`step_${currentQuestions.step}_question_${index}_input`"
@@ -225,7 +225,7 @@ onMounted(() => {
                             />
                         </template>
 
-                        <template v-if="question.input_type === 'textarea'">
+                        <template v-if="question.type === 'textarea'">
                             <TextAreaInput
                                 class="w-full mt-1"
                                 :id="`step_${currentQuestions.step}_question_${index}_input`"
@@ -238,7 +238,7 @@ onMounted(() => {
                             />
                         </template>
 
-                        <template v-if="question.input_type === 'checkbox'">
+                        <template v-if="question.type === 'checkbox'">
                             <CheckboxInput
                                 :id="`step_${currentQuestions.step}_question_${index}_input`"
                                 :options="question.options"
@@ -249,7 +249,7 @@ onMounted(() => {
                             />
                         </template>
 
-                        <template v-if="question.input_type === 'radio'">
+                        <template v-if="question.type === 'radio'">
                             <RadioInput
                                 :id="`step_${currentQuestions.step}_question_${index}_input`"
                                 :options="question.options"

@@ -16,41 +16,22 @@ import {
 import TextInput from "@/Components/TextInput.vue";
 import TextAreaInput from "@/StudentsApp/Components/TextAreaInput.vue";
 
-const form = useForm({
-    steps: [
-        {
-            step: 1,
-            title: "Passo 1",
-            description: "",
-        },
-    ],
-    questions: [
-        {
-            step: 1,
-            questions: [
-                {
-                    type: "",
-                    question: "Pergunta 1",
-                    showEditInputLabel: false,
-                    options: [
-                        {
-                            label: "Opção 1",
-                            showEditInputLabel: false,
-                        },
-                    ],
-                },
-            ],
-        },
-    ],
+const props = defineProps({
+    form: {
+        type: Object,
+        required: true,
+    },
 });
+
+const emit = defineEmits(["save"]);
 
 const currentStepIndex = ref(0);
 
 const addQuestion = () => {
-    form.questions[currentStepIndex.value].questions.push({
+    props.form.questions[currentStepIndex.value].questions.push({
         type: "",
         question: `Pergunta ${
-            form.questions[currentStepIndex.value].questions.length + 1
+            props.form.questions[currentStepIndex.value].questions.length + 1
         }`,
         showEditInputLabel: false,
         options: [
@@ -70,7 +51,7 @@ const addOption = (question) => {
 };
 
 const removeQuestion = (index) => {
-    form.questions[currentStepIndex.value].questions.splice(index, 1);
+    props.form.questions[currentStepIndex.value].questions.splice(index, 1);
 };
 
 const removeOption = (question, index) => {
@@ -78,14 +59,14 @@ const removeOption = (question, index) => {
 };
 
 const addStep = () => {
-    form.steps.push({
-        step: form.steps.length + 1,
-        title: `Passo ${form.steps.length + 1}`,
+    props.form.steps.push({
+        step: props.form.steps.length + 1,
+        title: `Passo ${props.form.steps.length + 1}`,
         description: "",
     });
 
-    form.questions.push({
-        step: form.steps.length,
+    props.form.questions.push({
+        step: props.form.steps.length,
         questions: [
             {
                 type: "",
@@ -101,16 +82,51 @@ const addStep = () => {
         ],
     });
 
-    currentStepIndex.value = form.steps.length - 1;
+    currentStepIndex.value = props.form.steps.length - 1;
 };
 
 const removeStep = (index) => {
-    form.steps.splice(index, 1);
-    form.questions.splice(index, 1);
+    props.form.steps.splice(index, 1);
+    props.form.questions.splice(index, 1);
 
-    if (currentStepIndex.value === form.steps.length) {
+    if (currentStepIndex.value === props.form.steps.length) {
         currentStepIndex.value--;
     }
+};
+
+const passes = () => {
+    let hasError = false;
+
+    props.form.questions.forEach((step) => {
+        step.questions.forEach((question) => {
+            if (question.type === "") {
+                hasError = true;
+            }
+
+            if (
+                (question.type === "select" ||
+                    question.type === "checkbox" ||
+                    question.type === "radio") &&
+                question.options.length < 2
+            ) {
+                hasError = true;
+            }
+        });
+    });
+
+    return hasError === false;
+};
+
+const save = () => {
+    if (!passes()) {
+        alert(
+            "Você precisa preencher todos os campos antes de salvar o formulário. Verifique se todas as perguntas possuem um tipo e se as perguntas do tipo select, checkbox ou radio possuem pelo menos 2 opções."
+        );
+
+        return;
+    }
+
+    confirm("Tem certeza que deseja salvar?") && emit("save");
 };
 </script>
 
@@ -416,6 +432,7 @@ const removeStep = (index) => {
                     <button
                         class="mt-2 bg-blue-700 p-2 rounded-md text-white text-sm ml-2"
                         type="button"
+                        @click="save"
                     >
                         Finalizar e Salvar
                     </button>
