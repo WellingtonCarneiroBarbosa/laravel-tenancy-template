@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import HeaderTitle from "@/Components/HeaderTitle.vue";
+import Form from "./Partials/Form.vue";
 </script>
 
 <template>
@@ -9,8 +10,6 @@ import HeaderTitle from "@/Components/HeaderTitle.vue";
             <HeaderTitle>Criar Formulário de OnBoarding</HeaderTitle>
         </template>
 
-        <div>
-            <h1>Formulário de OnBoarding</h1>
-        </div>
+        <Form />
     </AppLayout>
 </template>
