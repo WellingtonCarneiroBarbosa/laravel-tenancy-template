@@ -292,7 +292,7 @@ onMounted(() => {
                             class="flex items-center lg:hidden justify-between w-full"
                         >
                             <Link
-                                :href="route('dashboard')"
+                                :href="route('app.dashboard')"
                                 class="shrink-0 flex flex-row items-center gap-x-2"
                             >
                                 <ApplicationMark class="block h-9 w-auto" />
@@ -539,7 +539,7 @@ onMounted(() => {
                     aria-label="Brand"
                 >
                     <Link
-                        :href="route('dashboard')"
+                        :href="route('app.dashboard')"
                         class="shrink-0 flex flex-row items-center gap-x-2"
                     >
                         <ApplicationMark class="block h-9 w-auto" />
@@ -554,7 +554,7 @@ onMounted(() => {
                 <ul class="space-y-1.5">
                     <li>
                         <Link
-                            :href="route('dashboard')"
+                            :href="route('app.dashboard')"
                             class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                             :class="{
                                 'bg-gray-100 dark:bg-gray-900':

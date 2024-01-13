@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Application\OnBoardingForm;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\OnBoardingForm\CreateRequest as OnBoardingFormCreateRequest;
 use App\Models\Application\OnBoardingForm;
+use Inertia\Inertia;
 
 class CreateController extends Controller
 {
-    public function __invoke(OnBoardingFormCreateRequest $request)
+    public function __invoke()
+    {
+        return Inertia::render('Application/OnBoardingForm/Create');
+    }
+
+    public function store(OnBoardingFormCreateRequest $request)
     {
         $data = $request->validated();
 

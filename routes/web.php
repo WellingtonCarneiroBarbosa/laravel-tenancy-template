@@ -30,11 +30,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
     InitializeTenantByUserTeam::class,
-])->prefix('dashboard')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-
+])->prefix('dashboard')->name('app.')->group(function () {
     require __DIR__ . '/web/routes.php';
 });
 
