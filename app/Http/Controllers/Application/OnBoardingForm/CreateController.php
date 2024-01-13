@@ -18,16 +18,6 @@ class CreateController extends Controller
     {
         $data = $request->validated();
 
-        dd($data);
-
-        $tenant = tenant();
-
-        if (OnBoardingForm::whereApplicationId($tenant->id)->exists()) {
-            return response()->json([
-                'message' => 'Onboarding form already exists',
-            ], 400);
-        }
-
         $onBoarding = new OnBoardingForm();
 
         $onBoarding->forceFill($data)->save();
