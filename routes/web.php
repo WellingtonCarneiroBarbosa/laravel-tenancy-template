@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\InitializeTenantByUserTeam;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,7 +29,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    \App\Http\Middleware\InitializeUserTenantByHeader::class,
+    InitializeTenantByUserTeam::class,
 ])->prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return Inertia::render('Dashboard');
@@ -38,3 +39,5 @@ Route::middleware([
 });
 
 require __DIR__ . '/students-app-web/routes.php';
+
+require __DIR__ . '/jetstream.php';
