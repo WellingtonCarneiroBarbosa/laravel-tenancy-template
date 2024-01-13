@@ -371,7 +371,7 @@ const removeStep = (index) => {
                         v-if="currentStepIndex !== 0"
                     >
                         <MoveLeft
-                            class="w-6 h-6 text-gray-800 dark:text-gray-500 mr-2"
+                            class="w-6 h-6 text-gray-800 dark:text-gray-500 mr-3"
                         />
                     </button>
 
