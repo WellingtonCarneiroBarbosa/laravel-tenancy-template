@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, VueElement } from "vue";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
@@ -7,6 +7,7 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     title: String,
@@ -37,8 +38,16 @@ onMounted(() => {
         window.HSStaticMethods.autoInit();
     }, 100);
 
-    if (page.props.flash !== undefined) {
-        alert(page.props.flash.message);
+    if (page.props.flash) {
+        let flash = page.props.flash;
+
+        Swal.fire({
+            title: flash.type === "success" ? "Sucesso!" : "Erro!",
+            text: flash.message,
+            icon: flash.type,
+            timer: 3000,
+            showConfirmButton: false,
+        });
     }
 });
 </script>

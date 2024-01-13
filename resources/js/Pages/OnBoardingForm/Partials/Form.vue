@@ -15,6 +15,7 @@ import {
 } from "lucide-vue-next";
 import TextInput from "@/Components/TextInput.vue";
 import TextAreaInput from "@/StudentsApp/Components/TextAreaInput.vue";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     form: {
@@ -119,14 +120,29 @@ const passes = () => {
 
 const save = () => {
     if (!passes()) {
-        alert(
-            "Você precisa preencher todos os campos antes de salvar o formulário. Verifique se todas as perguntas possuem um tipo e se as perguntas do tipo select, checkbox ou radio possuem pelo menos 2 opções."
-        );
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Você precisa preencher todos os campos antes de salvar o formulário. Verifique se todas as perguntas possuem um tipo e se as perguntas do tipo select, checkbox ou radio possuem pelo menos 2 opções.",
+        });
 
         return;
     }
 
-    confirm("Tem certeza que deseja salvar?") && emit("save");
+    Swal.fire({
+        title: "Deseja prosseguir?",
+        text: "Tem certeza que deseja salvar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, salvar!",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            emit("save");
+        }
+    });
 };
 </script>
 

@@ -33,11 +33,7 @@ const form = useForm({
 });
 
 const handleSave = () => {
-    form.post(route("app.on-boarding-form.create"), {
-        onError: () => {
-            console.log(form.errors);
-        },
-    });
+    form.post(route("app.on-boarding-form.create"));
 };
 </script>
 

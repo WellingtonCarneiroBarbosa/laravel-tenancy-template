@@ -24,6 +24,8 @@
         "collect.js": "^4.36.1",
         "lucide-vue-next": "^0.309.0",
         "maska": "^2.1.11",
-        "preline": "^2.0.3"
+        "preline": "^2.0.3",
+        "sweetalert2": "^11.10.3",
+        "vue-sweetalert2": "^5.0.5"
     }
 }

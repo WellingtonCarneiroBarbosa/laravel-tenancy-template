@@ -11,6 +11,7 @@ import FormSection from "@/StudentsApp/Components/FormSection.vue";
 import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import collect from "collect.js";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     onBoardingForm: {
@@ -114,7 +115,12 @@ const goToNextStep = () => {
     );
 
     if (!allQuestionsAnswered) {
-        alert("Por favor, responda todas as perguntas antes de continuar.");
+        Swal.fire({
+            title: "Atenção!",
+            text: "Por favor, responda todas as perguntas antes de continuar.",
+            icon: "warning",
+            confirmButtonText: "Ok",
+        });
         return;
     }
 
@@ -154,9 +160,12 @@ const save = () => {
                 question.input_value === "" ||
                 question.input_value?.length === 0
             ) {
-                alert(
-                    "Por favor, responda todas as perguntas antes de continuar."
-                );
+                Swal.fire({
+                    title: "Atenção!",
+                    text: "Por favor, responda todas as perguntas antes de continuar.",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                });
                 passed = false;
                 return;
             }
@@ -167,7 +176,25 @@ const save = () => {
         return;
     }
 
-    alert("Salvo com sucesso!");
+    Swal.fire({
+        title: "Atenção!",
+        text: "Você tem certeza que deseja salvar suas respostas?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sim",
+        cancelButtonText: "Não",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Sucesso!",
+                text: "Suas respostas foram salvas com sucesso.",
+                icon: "success",
+                confirmButtonText: "Ok",
+            }).then(() => {
+                window.location.href = route("app.dashboard");
+            });
+        }
+    });
 };
 
 onMounted(() => {
