@@ -100,7 +100,7 @@ onMounted(() => {
                                             <div
                                                 class="block px-4 py-2 text-xs text-gray-400"
                                             >
-                                                Manage Team
+                                                Gerenciar App
                                             </div>
 
                                             <!-- Team Settings -->
@@ -113,7 +113,7 @@ onMounted(() => {
                                                     )
                                                 "
                                             >
-                                                Team Settings
+                                                Configurações do App
                                             </DropdownLink>
 
                                             <DropdownLink
@@ -123,7 +123,7 @@ onMounted(() => {
                                                 "
                                                 :href="route('teams.create')"
                                             >
-                                                Create New Team
+                                                Criar Novo App
                                             </DropdownLink>
 
                                             <!-- Team Switcher -->
@@ -140,7 +140,7 @@ onMounted(() => {
                                                 <div
                                                     class="block px-4 py-2 text-xs text-gray-400"
                                                 >
-                                                    Switch Teams
+                                                    Mudar App Atual
                                                 </div>
 
                                                 <template
@@ -253,15 +253,15 @@ onMounted(() => {
                                         <div
                                             class="block px-4 py-2 text-xs text-gray-400"
                                         >
-                                            Manage Account
+                                            Gerenciar Conta
                                         </div>
 
                                         <DropdownLink
                                             :href="route('profile.show')"
                                         >
-                                            Profile
+                                            Meu Perfil
                                         </DropdownLink>
-
+                                        <!--
                                         <DropdownLink
                                             v-if="
                                                 $page.props.jetstream
@@ -270,7 +270,7 @@ onMounted(() => {
                                             :href="route('api-tokens.index')"
                                         >
                                             API Tokens
-                                        </DropdownLink>
+                                        </DropdownLink> -->
 
                                         <div
                                             class="border-t border-gray-200 dark:border-gray-600"
@@ -279,7 +279,7 @@ onMounted(() => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Logout
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -396,21 +396,21 @@ onMounted(() => {
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"
                             >
-                                Profile
+                                Meu Perfil
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink
+                            <!-- <ResponsiveNavLink
                                 v-if="$page.props.jetstream.hasApiFeatures"
                                 :href="route('api-tokens.index')"
                                 :active="route().current('api-tokens.index')"
                             >
                                 API Tokens
-                            </ResponsiveNavLink>
+                            </ResponsiveNavLink> -->
 
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Logout
                                 </ResponsiveNavLink>
                             </form>
 
@@ -425,7 +425,7 @@ onMounted(() => {
                                 <div
                                     class="block px-4 py-2 text-xs text-gray-400"
                                 >
-                                    Manage Team
+                                    Gerenciar App
                                 </div>
 
                                 <!-- Team Settings -->
@@ -438,7 +438,7 @@ onMounted(() => {
                                     "
                                     :active="route().current('teams.show')"
                                 >
-                                    Team Settings
+                                    Configurações do App
                                 </ResponsiveNavLink>
 
                                 <ResponsiveNavLink
@@ -446,7 +446,7 @@ onMounted(() => {
                                     :href="route('teams.create')"
                                     :active="route().current('teams.create')"
                                 >
-                                    Create New Team
+                                    Criar Novo App
                                 </ResponsiveNavLink>
 
                                 <!-- Team Switcher -->
@@ -463,7 +463,7 @@ onMounted(() => {
                                     <div
                                         class="block px-4 py-2 text-xs text-gray-400"
                                     >
-                                        Switch Teams
+                                        Mudar App
                                     </div>
 
                                     <template

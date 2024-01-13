@@ -4,12 +4,12 @@ import CreateTeamForm from "@/Pages/Teams/Partials/CreateTeamForm.vue";
 </script>
 
 <template>
-    <AppLayout title="Create Team">
+    <AppLayout title="Criar Novo App">
         <template #header>
             <h2
                 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
             >
-                Create Team
+                Criar Novo App
             </h2>
         </template>
 
