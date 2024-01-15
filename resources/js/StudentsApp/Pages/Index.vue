@@ -133,8 +133,6 @@ onMounted(() => {
                             data-hs-pin-input-item
                             id="pin-input-0"
                             v-model="pinInputs[0]"
-                            v-on:keydown="handleKeyPress($event)"
-                            v-on:paste="pasteValue($event)"
                             autocomplete="off"
                             :class="{
                                 'border-red-400 dark:border-red-500':
@@ -160,7 +158,6 @@ onMounted(() => {
                             type="text"
                             autocomplete="off"
                             :disabled="loading"
-                            v-on:keydown="handleKeyPress($event)"
                             class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                         <input
@@ -176,7 +173,6 @@ onMounted(() => {
                             type="text"
                             autocomplete="off"
                             :disabled="loading"
-                            v-on:keydown="handleKeyPress($event)"
                             class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                         <input
@@ -192,14 +188,12 @@ onMounted(() => {
                             type="text"
                             autocomplete="off"
                             :disabled="loading"
-                            v-on:keydown="handleKeyPress($event)"
                             class="block bg-gray-100 w-[38px] text-center rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         />
                         <input
                             data-hs-pin-input-item
                             id="pin-input-4"
                             v-model="pinInputs[4]"
-                            v-on:keydown="handleKeyPress($event)"
                             :class="{
                                 'border-red-400 dark:border-red-500':
                                     invalidPin,

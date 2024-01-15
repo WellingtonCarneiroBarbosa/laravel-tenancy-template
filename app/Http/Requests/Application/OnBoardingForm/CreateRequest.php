@@ -54,9 +54,10 @@ class CreateRequest extends FormRequest
 
             'questions' => ['required', 'array', "min:{$stepsLength}"],
 
-            'questions.questions.*.step'       => ['required', 'int', 'min:1', 'max:255'],
-            'questions.questions.*.title'      => ['required', 'string', 'min:1', 'max:255'],
-            'questions.questions.*.type'       => ['required', 'string', 'min:1', 'max:255', 'in:text,textarea,select,checkbox,radio'],
+            'questions.questions.*.step'        => ['required', 'int', 'min:1', 'max:255'],
+            'questions.questions.*.title'       => ['required', 'string', 'min:1', 'max:255'],
+            'questions.questions.*.type'        => ['required', 'string', 'min:1', 'max:255', 'in:text,textarea,select,checkbox,radio'],
+            'questions.questions.*.description' => ['sometimes', 'nullable', 'string', 'min:1', 'max:2500'],
 
             'questions.questions.*.options' => ['required_if:questions.questions.type,select,checkbox,radio', 'array', 'min:1'],
 

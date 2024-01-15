@@ -14,7 +14,7 @@ import {
     Minus,
 } from "lucide-vue-next";
 import TextInput from "@/Components/TextInput.vue";
-import TextAreaInput from "@/StudentsApp/Components/TextAreaInput.vue";
+import TextAreaInput from "@/Components/TextAreaInput.vue";
 import Swal from "sweetalert2";
 
 const props = defineProps({
@@ -34,6 +34,7 @@ const addQuestion = () => {
         title: `Pergunta ${
             props.form.questions[currentStepIndex.value].questions.length + 1
         }`,
+        description: "",
         showEditInputLabel: false,
         options: [
             {
@@ -72,6 +73,7 @@ const addStep = () => {
             {
                 type: "",
                 title: `Pergunta 1`,
+                description: "",
                 showEditInputLabel: false,
                 options: [
                     {
@@ -358,6 +360,24 @@ const save = () => {
                         </button>
                     </div>
                 </template>
+
+                <InputLabel
+                    :class="{
+                        'block font-medium text-sm mt-3': true,
+                        'text-white dark:text-gray-400':
+                            currentStepIndex % 2 === 0,
+                        'text-gray-700 dark:text-gray-300':
+                            currentStepIndex % 2 !== 0,
+                    }"
+                    :for="`step_${currentStepIndex}_question_${key}_description`"
+                    value="Descrição da Pergunta:"
+                />
+
+                <TextAreaInput
+                    :id="`step_${currentStepIndex}_question_${key}_description`"
+                    class="mt-1 w-full"
+                    v-model="question.description"
+                />
 
                 <div class="flex w-full justify-end mt-2">
                     <button
