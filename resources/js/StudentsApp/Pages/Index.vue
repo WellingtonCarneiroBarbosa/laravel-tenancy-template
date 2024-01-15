@@ -2,6 +2,7 @@
 import { nextTick, ref, watch, onMounted } from "vue";
 import axios from "axios";
 import ThemeToggler from "@/StudentsApp/Components/ThemeToggler.vue";
+import { router, usePage } from "@inertiajs/vue3";
 
 const props = defineProps(["someProp"]);
 const pinInputs = ref(["", "", "", "", ""]);
@@ -74,18 +75,27 @@ const getTenant = (pin) => {
 };
 
 onMounted(() => {
-    let coach_app_id = localStorage.getItem("coach_app_id");
+    // check if url has shouldRedirect
+    const urlParams = new URLSearchParams(window.location.search);
 
-    if (
-        coach_app_id !== null &&
-        coach_app_id !== undefined &&
-        coach_app_id !== ""
-    ) {
-        window.location.href = route("students-app.app.home", {
-            tenant: coach_app_id,
-        });
+    const shouldRedirect = urlParams.get("shouldRedirect");
 
-        return;
+    if (shouldRedirect === null || shouldRedirect === undefined) {
+        let coach_app_id = localStorage.getItem("coach_app_id");
+
+        if (
+            coach_app_id !== null &&
+            coach_app_id !== undefined &&
+            coach_app_id !== ""
+        ) {
+            window.location.href = route("students-app.app.home", {
+                tenant: coach_app_id,
+            });
+
+            return;
+        }
+    } else if (shouldRedirect === 0) {
+        localStorage.removeItem("coach_app_id");
     }
 
     hiddenPage.value = false;

@@ -10,6 +10,10 @@ use Inertia\Inertia;
 use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 use Stancl\Tenancy\Middleware\ScopeSessions;
 
+InitializeTenancyByPath::$onFail = function ($exception, $request) {
+    return redirect()->route('students-app.index', ['shouldRedirect' => false]);
+};
+
 Route::prefix('/students-app')
     ->middleware([
         KeepSessionForeverToAuthenticatedUsers::class,
