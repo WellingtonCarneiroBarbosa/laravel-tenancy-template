@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Application\OnBoardingForm;
 
+use App\Actions\Application\OnBoardingForm\Create;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\OnBoardingForm\CreateRequest as OnBoardingFormCreateRequest;
 use App\Models\Application\OnBoardingForm;
@@ -24,16 +25,9 @@ class CreateController extends Controller
 
     public function store(OnBoardingFormCreateRequest $request)
     {
-        $data = $request->validated();
+        $creator = new Create($request);
 
-        $lastOnBoarding = OnBoardingForm::query()
-            ->orderBy('cicle', 'desc')
-            ->first();
-
-        $onBoarding        = new OnBoardingForm();
-        $onBoarding->cicle = $lastOnBoarding ? $lastOnBoarding->cicle + 1 : 1;
-
-        $onBoarding->forceFill($data)->save();
+        $creator->execute();
 
         return redirect()->route('app.on-boarding-form.index')
             ->with('flash', [
