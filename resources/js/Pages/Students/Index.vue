@@ -1,4 +1,5 @@
 <script setup>
+import { computed, nextTick, onMounted, ref } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import TableContainer from "@/Components/TableContainer.vue";
 import TableHeader from "@/Components/TableHeader.vue";
@@ -6,16 +7,59 @@ import TableRow from "@/Components/TableRow.vue";
 import TableRowActions from "@/Components/TableRowActions.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import HeaderTitle from "@/Components/HeaderTitle.vue";
-import { Link, useForm } from "@inertiajs/vue3";
+import { Link, useForm, router } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 import dateFormatter from "@/Helpers/dateFormatter.js";
+import Notes from "./Partials/Notes.vue";
 
 const props = defineProps({
     students: {
         type: Object,
         required: true,
     },
+    notes: {
+        type: Object,
+        required: false,
+    },
 });
+
+const selectedStudent = ref(null);
+
+const showStudentNotes = ref(false);
+
+const gettingStudentNotes = ref(false);
+
+const getStudentNotes = async (student) => {
+    if (gettingStudentNotes.value) {
+        return;
+    }
+
+    selectedStudent.value = student;
+    gettingStudentNotes.value = true;
+
+    router.visit(
+        route("app.students.index", {
+            studentId: student.id,
+        }),
+        {
+            preserveState: true,
+            only: ["notes"],
+            onSuccess: () => {
+                setTimeout(() => {
+                    nextTick(() => {
+                        gettingStudentNotes.value = false;
+                        showStudentNotes.value = true;
+                    });
+                }, 200);
+            },
+        }
+    );
+};
+
+const handleNoteClosed = () => {
+    showStudentNotes.value = false;
+    selectedStudent.value = null;
+};
 
 const getFirstLastName = (name) => {
     const names = name.split(" ");
@@ -54,8 +98,15 @@ const destroy = (student) => {
 <template>
     <AppLayout title="Alunos">
         <template #header>
-            <HeaderTitle>Alunos</HeaderTitle>
+            <HeaderTitle>Alunos </HeaderTitle>
         </template>
+
+        <Notes
+            :show="showStudentNotes"
+            :student="selectedStudent ?? {}"
+            :notes="notes ?? {}"
+            @close="handleNoteClosed"
+        />
 
         <div class="w-full flex justify-end mb-2">
             <Link :href="route('app.students.create')">
@@ -85,7 +136,25 @@ const destroy = (student) => {
                             </p>
                         </div>
                     </TableRow>
-                    <TableRow> Notas </TableRow>
+                    <TableRow>
+                        <button
+                            @click="getStudentNotes(student)"
+                            :disabled="gettingStudentNotes"
+                            class="hover:bg-gray-100 border p-2 rounded-md font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500"
+                            :class="{
+                                'bg-gray-100 bg-opacity-70 cursor-not-allowed':
+                                    gettingStudentNotes,
+                                'bg-white': !gettingStudentNotes,
+                            }"
+                        >
+                            {{
+                                gettingStudentNotes &&
+                                selectedStudent.id === student.id
+                                    ? "Carregando..."
+                                    : "Visualizar Prontuário"
+                            }}
+                        </button>
+                    </TableRow>
                     <TableRow>
                         {{ student.next_cycle_at ?? "Ainda não iniciado" }}
                     </TableRow>

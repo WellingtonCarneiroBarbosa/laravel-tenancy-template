@@ -34,7 +34,7 @@ if (window.location.pathname.includes("students-app")) {
                 window.HSStaticMethods.autoInit();
             }, 100);
 
-            return createApp({
+            createApp({
                 render: () => {
                     return h(App, props);
                 },
@@ -76,5 +76,5 @@ if (window.location.pathname.includes("students-app")) {
         progress: {
             color: "#4B5563",
         },
-    });
+    }).inertia;
 }

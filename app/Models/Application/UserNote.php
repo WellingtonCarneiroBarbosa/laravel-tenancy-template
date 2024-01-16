@@ -2,8 +2,11 @@
 
 namespace App\Models\Application;
 
+use App\Models\Application\User as TenantUser;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Application\UserNote
@@ -20,7 +23,8 @@ class UserNote extends Model
     protected $connection = 'tenant';
 
     protected $fillable = [
-        'notes',
+        'title',
+        'description',
         'date',
         'user_id',
         'created_by',
@@ -30,8 +34,13 @@ class UserNote extends Model
         'date' => 'datetime',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(TenantUser::class);
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
