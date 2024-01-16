@@ -21,9 +21,7 @@ class CreateController extends Controller
     {
         $this->authorize('create', User::class);
 
-        $data = $request->validated();
-
-        $studentCreator = new Create($data);
+        $studentCreator = new Create($request);
         $studentCreator->execute();
 
         return redirect()->route('app.students.index')

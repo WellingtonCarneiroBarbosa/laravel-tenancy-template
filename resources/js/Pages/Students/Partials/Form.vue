@@ -46,13 +46,13 @@ const cpfMask = reactive({
                 <TextInput
                     id="student_name_form"
                     class="mt-1 w-full"
-                    v-model="form.full_name"
-                    :invalid="form.errors.full_name"
+                    v-model="form.name"
+                    :invalid="form.errors.name"
                     :disabled="form.processing"
                     required
                 />
 
-                <InputError :message="form.errors.full_name" />
+                <InputError :message="form.errors.name" />
             </div>
 
             <div class="col-span-12 md:col-span-6">
@@ -64,7 +64,6 @@ const cpfMask = reactive({
                     v-model="form.email"
                     :invalid="form.errors.email"
                     :disabled="form.processing"
-                    :mask="cpfMask"
                     type="email"
                     required
                 />
@@ -81,7 +80,7 @@ const cpfMask = reactive({
                     v-model="form.cpf"
                     :invalid="form.errors.cpf"
                     :disabled="form.processing"
-                    required
+                    :mask="cpfMask"
                 />
 
                 <InputError :message="form.errors.cpf" />

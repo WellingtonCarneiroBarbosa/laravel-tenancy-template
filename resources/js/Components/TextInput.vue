@@ -56,6 +56,7 @@ defineExpose({ focus: () => input.value.focus() });
             }"
             @input="$emit('update:modelValue', $event.target.value)"
             v-maska:[mask]
+            autocomplete="off"
         />
         <div
             v-if="icon"

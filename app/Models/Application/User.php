@@ -107,6 +107,7 @@ class User extends Authenticatable
         'on_boarding_completed_at'         => 'datetime',
         'next_cycle_at'                    => 'datetime',
         'initial_on_boarding_completed_at' => 'datetime',
+        'access_expires_at'                => 'datetime',
     ];
 
     /**
@@ -116,7 +117,20 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'first_name',
     ];
+
+    public function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucwords($value),
+        );
+    }
+
+    public function getFirstNameAttribute(): string
+    {
+        return explode(' ', $this->name)[0];
+    }
 
     public function password(): Attribute
     {
@@ -128,8 +142,14 @@ class User extends Authenticatable
     public function cpf(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => preg_replace('/[^0-9]/is', '', $value),
-            set: fn (string $value) => preg_replace('/[^0-9]/is', '', $value),
+            get: fn (?string $value) => preg_replace('/[^0-9]/is', '', $value),
+            set: function (?string $value) {
+                if ($value === '' || $value === null) {
+                    return null;
+                }
+
+                return preg_replace('/[^0-9]/is', '', $value);
+            },
         );
     }
 

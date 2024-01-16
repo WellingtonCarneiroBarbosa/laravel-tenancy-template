@@ -5,10 +5,15 @@ import Form from "./Partials/Form.vue";
 import { useForm, Link } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
-const form = useForm({});
+const form = useForm({
+    name: "",
+    email: "",
+    cpf: "",
+    access_expires_at: "",
+});
 
 const save = () => {
-    form.post(route("app.students.store"));
+    form.post(route("app.students.create"));
 };
 </script>
 
