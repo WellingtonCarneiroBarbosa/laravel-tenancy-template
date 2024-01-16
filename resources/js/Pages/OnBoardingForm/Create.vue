@@ -2,7 +2,8 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import HeaderTitle from "@/Components/HeaderTitle.vue";
 import Form from "./Partials/Form.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
     lastOnBoarding: {
@@ -51,6 +52,10 @@ const handleSave = () => {
                 >Criar Formulário de OnBoarding: Ciclo
                 {{ lastOnBoarding.cicle + 1 }}</HeaderTitle
             >
+
+            <Link :href="route('app.on-boarding-form.index')">
+                <PrimaryButton> Voltar </PrimaryButton>
+            </Link>
         </template>
 
         <Form :form="form" @save="handleSave" />

@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
             ]);
 
-            OnBoardingForm::factory(1, [
-                'cicle' => 1,
-            ])->create();
+            // OnBoardingForm::factory(1, [
+            //     'cicle' => 1,
+            // ])->create();
         }
     }
 }

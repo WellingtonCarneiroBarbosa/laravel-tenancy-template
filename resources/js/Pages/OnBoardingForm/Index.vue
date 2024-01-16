@@ -58,7 +58,9 @@ const destroy = (onBoardingForm) => {
         </template>
 
         <div class="w-full flex justify-end mb-2">
-            <PrimaryButton>Novo Formulário</PrimaryButton>
+            <Link :href="route('app.on-boarding-form.create')">
+                <PrimaryButton>Novo Formulário</PrimaryButton>
+            </Link>
         </div>
 
         <TableContainer>

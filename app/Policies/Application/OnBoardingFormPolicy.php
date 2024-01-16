@@ -33,9 +33,9 @@ class OnBoardingFormPolicy
 
     public function createInitial(User $user): bool
     {
-        return OnBoardingForm::whereApplicationId(
-            tenant('id')
-        )->notExists();
+        return tenant('id') == $user->current_team_id && !OnBoardingForm::whereCicle(
+            1
+        )->exists();
     }
 
     /**
