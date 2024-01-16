@@ -574,7 +574,6 @@ onMounted(() => {
                                         Novo
                                     </Link>
                                 </li>
-                                2
                             </ul>
                         </div>
                     </li>

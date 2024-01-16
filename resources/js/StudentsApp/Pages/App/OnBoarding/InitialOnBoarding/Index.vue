@@ -12,12 +12,17 @@ import PrimaryButton from "@/StudentsApp/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import collect from "collect.js";
 import Swal from "sweetalert2";
+import { usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
     onBoardingForm: {
-        type: Object,
+        type: String,
         required: true,
     },
+});
+
+const onBoardingForm = computed(() => {
+    return JSON.parse(props.onBoardingForm);
 });
 
 const responses = ref([]);
@@ -35,11 +40,11 @@ const currentStep = ref(null);
 const currentQuestions = ref([]);
 
 const steps = computed(() => {
-    return collect(props.onBoardingForm.steps);
+    return collect(onBoardingForm.value.steps);
 });
 
 const questions = computed(() => {
-    return collect(props.onBoardingForm.questions);
+    return collect(onBoardingForm.value.questions);
 });
 
 const setCurrentQuestions = (currentStepIndex, isPrevious = false) => {
@@ -51,30 +56,6 @@ const setCurrentQuestions = (currentStepIndex, isPrevious = false) => {
     if (isPrevious) {
         return;
     }
-
-    currentQuestions.value.questions = collect(currentQuestions.value.questions)
-        .map((question) => {
-            if (
-                question.type === "select" ||
-                question.type === "radio" ||
-                question.type === "checkbox"
-            ) {
-                let labels = question.input_options_labels;
-                let values = question.input_options_values;
-
-                question.options = [];
-
-                for (let i = 0; i < labels.length; i++) {
-                    question.options.push({
-                        label: labels[i],
-                        value: values[i],
-                    });
-                }
-            }
-
-            return question;
-        })
-        .all();
 
     responses.value.push({
         step: currentQuestions.value.step,
@@ -191,7 +172,9 @@ const save = () => {
                 icon: "success",
                 confirmButtonText: "Ok",
             }).then(() => {
-                window.location.href = route("app.dashboard");
+                window.location.href = route("students-app.app.home", {
+                    tenant: usePage().props.current_tenant.id,
+                });
             });
         }
     });

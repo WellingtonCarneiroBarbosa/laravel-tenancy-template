@@ -14,9 +14,9 @@ class UpdateRequest extends FormRequest
         foreach ($questions as $stepKey => $q) {
             $questions[$stepKey]['questions'] = array_map(function ($question) {
                 $base = [
-                    'type'        => $question['type'] ?? null,
-                    'title'       => $question['title'] ?? null,
-                    'description' => $question['description'] ?? null,
+                    'type'        => $question['type'] ?? '',
+                    'title'       => $question['title'] ?? '',
+                    'description' => $question['description'] ?? '',
                     'options'     => $question['options'] ?? [],
                 ];
 
@@ -62,7 +62,7 @@ class UpdateRequest extends FormRequest
 
             'questions.questions.*.options' => ['required_if:questions.questions.type,select,checkbox,radio', 'array', 'min:1'],
 
-            'questions.questions.*.options.*.title' => ['required', 'string', 'min:1', 'max:255'],
+            'questions.questions.*.options.*.label' => ['required', 'string', 'min:1', 'max:255'],
         ];
     }
 }

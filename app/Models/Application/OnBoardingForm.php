@@ -25,8 +25,8 @@ class OnBoardingForm extends Model
     protected $table = 'on_boarding_form';
 
     protected $casts = [
-        'steps'     => 'collection',
-        'questions' => 'collection',
+        'steps'     => 'array',
+        'questions' => 'array',
     ];
 
     public function questions(): Attribute

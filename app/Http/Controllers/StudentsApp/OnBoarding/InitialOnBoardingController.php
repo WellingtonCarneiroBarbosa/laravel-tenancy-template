@@ -13,7 +13,7 @@ class InitialOnBoardingController extends Controller
         $onBoardingForm = OnBoardingForm::where('cicle', 1)->firstOrFail();
 
         return Inertia::render('App/OnBoarding/InitialOnBoarding/Index', [
-            'onBoardingForm' => $onBoardingForm,
+            'onBoardingForm' => json_encode($onBoardingForm),
         ]);
     }
 }
