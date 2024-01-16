@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, useAttrs, reactive } from "vue";
+import { onMounted, ref, useAttrs, reactive, watch } from "vue";
 
 const props = defineProps({
     modelValue: String,
@@ -22,12 +22,26 @@ defineEmits(["update:modelValue"]);
 
 const input = ref(null);
 
+function autoExpand(textarea) {
+    textarea.style.height = "auto";
+
+    textarea.style.height = textarea.scrollHeight + "px";
+}
+
 onMounted(() => {
     if (input.value.hasAttribute("autofocus")) {
         input.value.focus();
     }
 });
 
+watch(
+    () => input.value,
+    (value) => {
+        if (value !== null) {
+            autoExpand(value);
+        }
+    }
+);
 defineExpose({ focus: () => input.value.focus() });
 </script>
 
@@ -38,6 +52,11 @@ defineExpose({ focus: () => input.value.focus() });
             v-bind="attrs"
             :value="modelValue"
             :disabled="loading"
+            @input="
+                autoExpand($event.target) &&
+                    $emit('update:modelValue', $event.target.value)
+            "
+            v-on:load="autoExpand($event.target)"
             :class="{
                 'border-red-500 focus:border-red-500 focus:ring-red-500':
                     invalid,
@@ -48,7 +67,6 @@ defineExpose({ focus: () => input.value.focus() });
                 'pl-9': icon,
             }"
             autocomplete="off"
-            @input="$emit('update:modelValue', $event.target.value)"
             class="py-2 px-4 bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:text-gray-400 block w-full rounded-lg transition-colors duration-150 ease-in"
             required
             aria-describedby="hs-validation-name-error-helper"
@@ -115,3 +133,10 @@ defineExpose({ focus: () => input.value.focus() });
         {{ message }}
     </p>
 </template>
+
+<style scoped>
+textarea {
+    resize: none;
+    overflow-y: hidden;
+}
+</style>

@@ -48,15 +48,23 @@ class OnBoardingFormFactory extends Factory
                         $inputOptionsLabels = array_map(function (int $option) {
                             return $this->faker->word;
                         }, range(1, $options));
+
+                        $options = [];
+
+                        foreach ($inputOptionsValues as $key => $value) {
+                            $options[$key]['option'] = $value;
+                            $options[$key]['label']  = $inputOptionsLabels[$key];
+                        }
                     }
 
+
+
                     return [
-                        'title'                 => $this->faker->sentence,
-                        'description'           => $this->faker->paragraph,
-                        'type'                  => $inputType,
-                        'input_options_values'  => $inputOptionsValues,
-                        'input_options_labels'  => $inputOptionsLabels,
-                        'order'                 => $question,
+                        'title'       => $this->faker->sentence,
+                        'description' => $this->faker->paragraph,
+                        'type'        => $inputType,
+                        'options'     => $options ?? [],
+                        'order'       => $question,
                     ];
                 }, range(1, $questions)),
             ];

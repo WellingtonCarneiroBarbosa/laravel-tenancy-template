@@ -1,13 +1,12 @@
 <script setup>
-import { ref, onMounted, VueElement } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import NavLink from "@/Components/NavLink.vue";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import Swal from "sweetalert2";
+import { X } from "lucide-vue-next";
 
 const props = defineProps({
     title: String,
@@ -16,6 +15,28 @@ const props = defineProps({
 const page = usePage();
 
 const showingNavigationDropdown = ref(false);
+
+const backdrop = ref(null);
+
+const sidebar = ref(null);
+
+watch(
+    () => showingNavigationDropdown.value,
+    (newValue) => {
+        if (newValue) {
+            backdrop.value.classList.remove("hidden");
+        } else {
+            backdrop.value.classList.add("hidden");
+        }
+    }
+);
+
+watch(
+    () => backdrop.value,
+    (newValue) => {
+        console.log(newValue);
+    }
+);
 
 const switchToTeam = (team) => {
     router.put(
@@ -365,174 +386,6 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-
-                <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{
-                        block: showingNavigationDropdown,
-                        hidden: !showingNavigationDropdown,
-                    }"
-                    class="lg:hidden"
-                >
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            as="button"
-                            class="text-gray-500 hover:text-gray-600"
-                            data-hs-overlay="#docs-sidebar"
-                            aria-controls="docs-sidebar"
-                            aria-label="Toggle navigation"
-                        >
-                            Abrir Menu Principal
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <!-- Responsive Settings Options -->
-                    <div
-                        class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600"
-                    >
-                        <div class="flex items-center px-4">
-                            <div
-                                v-if="
-                                    $page.props.jetstream.managesProfilePhotos
-                                "
-                                class="shrink-0 me-3"
-                            >
-                                <img
-                                    class="h-10 w-10 rounded-full object-cover"
-                                    :src="
-                                        $page.props.auth.user.profile_photo_url
-                                    "
-                                    :alt="$page.props.auth.user.name"
-                                />
-                            </div>
-
-                            <div>
-                                <div
-                                    class="font-medium text-base text-gray-800 dark:text-gray-200"
-                                >
-                                    {{ $page.props.auth.user.name }}
-                                </div>
-                                <div class="font-medium text-sm text-gray-500">
-                                    {{ $page.props.auth.user.email }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink
-                                :href="route('profile.show')"
-                                :active="route().current('profile.show')"
-                            >
-                                Meu Perfil
-                            </ResponsiveNavLink>
-
-                            <!-- <ResponsiveNavLink
-                                v-if="$page.props.jetstream.hasApiFeatures"
-                                :href="route('api-tokens.index')"
-                                :active="route().current('api-tokens.index')"
-                            >
-                                API Tokens
-                            </ResponsiveNavLink> -->
-
-                            <!-- Authentication -->
-                            <form method="POST" @submit.prevent="logout">
-                                <ResponsiveNavLink as="button">
-                                    Logout
-                                </ResponsiveNavLink>
-                            </form>
-
-                            <!-- Team Management -->
-                            <template
-                                v-if="$page.props.jetstream.hasTeamFeatures"
-                            >
-                                <div
-                                    class="border-t border-gray-200 dark:border-gray-600"
-                                />
-
-                                <div
-                                    class="block px-4 py-2 text-xs text-gray-400"
-                                >
-                                    Gerenciar App
-                                </div>
-
-                                <!-- Team Settings -->
-                                <ResponsiveNavLink
-                                    :href="
-                                        route(
-                                            'teams.show',
-                                            $page.props.auth.user.current_team
-                                        )
-                                    "
-                                    :active="route().current('teams.show')"
-                                >
-                                    Configurações do App
-                                </ResponsiveNavLink>
-
-                                <ResponsiveNavLink
-                                    v-if="$page.props.jetstream.canCreateTeams"
-                                    :href="route('teams.create')"
-                                    :active="route().current('teams.create')"
-                                >
-                                    Criar Novo App
-                                </ResponsiveNavLink>
-
-                                <!-- Team Switcher -->
-                                <template
-                                    v-if="
-                                        $page.props.auth.user.all_teams.length >
-                                        1
-                                    "
-                                >
-                                    <div
-                                        class="border-t border-gray-200 dark:border-gray-600"
-                                    />
-
-                                    <div
-                                        class="block px-4 py-2 text-xs text-gray-400"
-                                    >
-                                        Mudar App
-                                    </div>
-
-                                    <template
-                                        v-for="team in $page.props.auth.user
-                                            .all_teams"
-                                        :key="team.id"
-                                    >
-                                        <form
-                                            @submit.prevent="switchToTeam(team)"
-                                        >
-                                            <ResponsiveNavLink as="button">
-                                                <div class="flex items-center">
-                                                    <svg
-                                                        v-if="
-                                                            team.id ==
-                                                            $page.props.auth
-                                                                .user
-                                                                .current_team_id
-                                                        "
-                                                        class="me-2 h-5 w-5 text-green-400"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width="1.5"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                        />
-                                                    </svg>
-                                                    <div>{{ team.name }}</div>
-                                                </div>
-                                            </ResponsiveNavLink>
-                                        </form>
-                                    </template>
-                                </template>
-                            </template>
-                        </div>
-                    </div>
-                </div>
             </nav>
 
             <!-- Page Heading -->
@@ -548,7 +401,7 @@ onMounted(() => {
             <!-- Page Content -->
             <main>
                 <div class="py-5 md:py-10">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <slot />
                     </div>
                 </div>
@@ -557,14 +410,24 @@ onMounted(() => {
 
         <div
             id="docs-sidebar"
-            class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700"
+            ref="sidebar"
+            class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-500 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700"
+            :class="{
+                'translate-x-0 ': showingNavigationDropdown,
+                '-translate-x-full ': !showingNavigationDropdown,
+            }"
         >
-            <div class="px-6">
-                <a
-                    class="flex-none text-xl font-semibold dark:text-white"
-                    href="#"
-                    aria-label="Brand"
-                >
+            <div
+                class="right-0 top-0 fixed p-2"
+                v-if="showingNavigationDropdown"
+            >
+                <button @click="showingNavigationDropdown = false">
+                    <X class="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                </button>
+            </div>
+
+            <div class="flex-none text-xl font-semibold dark:text-white px-6">
+                <a href="#" aria-label="Brand">
                     <Link
                         :href="route('app.dashboard')"
                         class="shrink-0 flex flex-row items-center gap-x-2"
@@ -921,7 +784,13 @@ onMounted(() => {
                         </div>
                     </li>
 
-                    <li class="hs-accordion" id="projects-accordion">
+                    <li
+                        class="hs-accordion"
+                        id="forms-accordion"
+                        :class="{
+                            active: route().current('app.on-boarding-form.*'),
+                        }"
+                    >
                         <button
                             type="button"
                             class="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -946,7 +815,7 @@ onMounted(() => {
                                 />
                                 <path d="M15 2v5h5" />
                             </svg>
-                            Projects
+                            Formulários
 
                             <svg
                                 class="hs-accordion-active:block ms-auto hidden w-4 h-4 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
@@ -981,25 +850,46 @@ onMounted(() => {
                         </button>
 
                         <div
-                            id="projects-accordion"
-                            class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                            id="forms-accordion"
+                            class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
+                            :class="{
+                                hidden: !route().current(
+                                    'app.on-boarding-form.*'
+                                ),
+                            }"
                         >
                             <ul class="pt-2 ps-2">
                                 <li>
-                                    <a
+                                    <Link
+                                        :href="
+                                            route('app.on-boarding-form.index')
+                                        "
+                                        :class="{
+                                            'bg-gray-100 dark:bg-gray-900':
+                                                route().current(
+                                                    'app.on-boarding-form.index'
+                                                ),
+                                        }"
                                         class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                        href="#"
                                     >
-                                        Link 1
-                                    </a>
+                                        Meus Formulários
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
+                                    <Link
+                                        :href="
+                                            route('app.on-boarding-form.create')
+                                        "
+                                        :class="{
+                                            'bg-gray-100 dark:bg-gray-900':
+                                                route().current(
+                                                    'app.on-boarding-form.create'
+                                                ),
+                                        }"
                                         class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                        href="#"
                                     >
-                                        Link 2
-                                    </a>
+                                        Novo
+                                    </Link>
                                 </li>
                                 <li>
                                     <a
@@ -1081,5 +971,12 @@ onMounted(() => {
                 </ul>
             </nav>
         </div>
+
+        <div
+            ref="backdrop"
+            id="docs-sidebar-backdrop"
+            style="z-index: 59"
+            class="transition duration fixed inset-0 bg-gray-900 bg-opacity-50 dark:bg-opacity-80 hs-overlay-backdrop hidden"
+        ></div>
     </div>
 </template>

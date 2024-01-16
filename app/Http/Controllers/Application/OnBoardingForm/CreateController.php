@@ -11,7 +11,13 @@ class CreateController extends Controller
 {
     public function __invoke()
     {
-        return Inertia::render('OnBoardingForm/Create');
+        $lastOnBoarding = OnBoardingForm::query()
+            ->orderBy('cicle', 'desc')
+            ->first();
+
+        return Inertia::render('OnBoardingForm/Create', [
+            'lastOnBoarding' => $lastOnBoarding,
+        ]);
     }
 
     public function store(OnBoardingFormCreateRequest $request)

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import FormSection from "@/Components/FormSection.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -25,6 +25,32 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["save"]);
+
+const formClasses = computed(() => {
+    let classes = "px-4 py-5 sm:p-6 shadow";
+
+    if (currentStepIndex.value % 2 === 0) {
+        classes +=
+            " bg-gray-200 dark:bg-gray-900 dark:text-gray-100 text-gray-800";
+    } else {
+        classes +=
+            " bg-gray-300 dark:bg-gray-800 dark:text-gray-400 text-gray-700";
+    }
+
+    return classes;
+});
+
+const labelClasses = computed(() => {
+    let classes = "block font-medium text-sm";
+
+    if (currentStepIndex % 2 === 0) {
+        classes += "text-white dark:text-gray-400";
+    } else {
+        classes += "text-gray-700 dark:text-gray-300";
+    }
+
+    return classes;
+});
 
 const currentStepIndex = ref(0);
 
@@ -149,13 +175,7 @@ const save = () => {
 </script>
 
 <template>
-    <FormSection
-        :form-classes="{
-            'px-4 py-5 sm:p-6 shadow': true,
-            'bg-gray-400 dark:bg-gray-800': currentStepIndex % 2 === 0,
-            'bg-gray-200 dark:bg-gray-700': currentStepIndex % 2 !== 0,
-        }"
-    >
+    <FormSection :form-classes="formClasses">
         <template #title> Passo {{ currentStepIndex + 1 }} </template>
 
         <template #description>
@@ -174,13 +194,7 @@ const save = () => {
         <template #form>
             <div class="col-span-12">
                 <InputLabel
-                    :class="{
-                        'block font-medium text-sm': true,
-                        'text-white dark:text-gray-400':
-                            currentStepIndex % 2 === 0,
-                        'text-gray-700 dark:text-gray-300':
-                            currentStepIndex % 2 !== 0,
-                    }"
+                    :class="labelClasses"
                     :for="`step_${currentStepIndex}_title`"
                     value="Título do Passo:"
                 />
@@ -195,13 +209,7 @@ const save = () => {
 
             <div class="col-span-12 mt-2">
                 <InputLabel
-                    :class="{
-                        'block font-medium text-sm': true,
-                        'text-white dark:text-gray-400':
-                            currentStepIndex % 2 === 0,
-                        'text-gray-700 dark:text-gray-300':
-                            currentStepIndex % 2 !== 0,
-                    }"
+                    :class="labelClasses"
                     :for="`step_${currentStepIndex}_description`"
                     value="Descrição do Passo:"
                 />
@@ -230,13 +238,7 @@ const save = () => {
             >
                 <div class="flex gap-x-2">
                     <InputLabel
-                        :class="{
-                            'block font-medium text-sm': true,
-                            'text-white dark:text-gray-400':
-                                currentStepIndex % 2 === 0,
-                            'text-gray-700 dark:text-gray-300':
-                                currentStepIndex % 2 !== 0,
-                        }"
+                        :class="labelClasses"
                         :for="`step_${currentStepIndex}_question_${key}`"
                         v-if="!question.showEditInputLabel"
                         :value="question.title"
@@ -250,6 +252,15 @@ const save = () => {
                     />
 
                     <button
+                        type="button"
+                        @click="removeQuestion(key)"
+                        v-if="key !== 0"
+                    >
+                        <X class="w-4 h-4 text-gray-800 dark:text-gray-500" />
+                    </button>
+
+                    <button
+                        type="button"
                         @click="question.showEditInputLabel = true"
                         v-if="!question.showEditInputLabel"
                     >
@@ -258,15 +269,8 @@ const save = () => {
                         />
                     </button>
 
-                    <div class="flex-grow" />
-
-                    <button @click="removeQuestion(key)" v-if="key !== 0">
-                        <X
-                            class="w-4 h-4 text-gray-800 dark:text-gray-500 mr-1"
-                        />
-                    </button>
-
                     <button
+                        type="button"
                         @click="question.showEditInputLabel = false"
                         v-if="question.showEditInputLabel"
                     >
@@ -299,76 +303,74 @@ const save = () => {
                         question.type === 'radio'
                     "
                 >
-                    <div
-                        class="flex flex-row gap-x-2 w-full mt-2"
-                        v-for="(option, key) in question.options"
-                    >
-                        <InputLabel
-                            :class="{
-                                'block font-medium text-sm': true,
-                                'text-white dark:text-gray-400':
-                                    currentStepIndex % 2 === 0,
-                                'text-gray-700 dark:text-gray-300':
-                                    currentStepIndex % 2 !== 0,
-                            }"
-                            for="question"
-                            v-if="!option.showEditInputLabel"
-                            :value="option.label"
-                        />
-                        <input
-                            type="text"
-                            class="w-full rounded-md h-5 p-4"
-                            v-model="option.label"
-                            v-if="option.showEditInputLabel"
-                            @keypress.enter="option.showEditInputLabel = false"
-                        />
-
-                        <button
-                            @click="option.showEditInputLabel = true"
-                            v-if="!option.showEditInputLabel"
+                    <div class="flex flex-wrap justify-start gap-x-4 w-full">
+                        <div
+                            class="flex flex-row gap-x-1 mt-2"
+                            v-for="(option, key) in question.options"
                         >
-                            <Pencil
-                                class="w-4 h-4 text-gray-800 dark:text-gray-500"
+                            <InputLabel
+                                :class="labelClasses"
+                                for="question"
+                                v-if="!option.showEditInputLabel"
+                                :value="option.label"
                             />
-                        </button>
-
-                        <button @click="removeOption(question, key)">
-                            <X
-                                class="w-4 h-4 text-gray-800 dark:text-gray-500"
-                                v-if="key !== 0"
+                            <input
+                                type="text"
+                                class="w-full rounded-md h-5 p-4"
+                                v-model="option.label"
+                                v-if="option.showEditInputLabel"
+                                @keypress.enter="
+                                    option.showEditInputLabel = false
+                                "
                             />
-                        </button>
 
-                        <button
-                            @click="option.showEditInputLabel = false"
-                            v-if="option.showEditInputLabel"
-                        >
-                            <Check
-                                class="w-4 h-4 text-gray-800 dark:text-gray-500"
-                            />
-                        </button>
+                            <button
+                                type="button"
+                                @click="removeOption(question, key)"
+                            >
+                                <X
+                                    class="w-4 h-4 text-gray-800 dark:text-gray-500"
+                                    v-if="key !== 0"
+                                />
+                            </button>
 
-                        <div class="flex-grow" />
+                            <button
+                                type="button"
+                                @click="option.showEditInputLabel = true"
+                                v-if="!option.showEditInputLabel"
+                            >
+                                <Pencil
+                                    class="w-4 h-4 text-gray-800 dark:text-gray-500"
+                                />
+                            </button>
 
-                        <button
-                            @click="addOption(question)"
-                            v-if="key === question.options.length - 1"
-                        >
-                            <Plus
-                                class="w-5 h-5 text-gray-800 dark:text-gray-500"
-                            />
-                        </button>
+                            <button
+                                type="button"
+                                @click="option.showEditInputLabel = false"
+                                v-if="option.showEditInputLabel"
+                            >
+                                <Check
+                                    class="w-4 h-4 text-gray-800 dark:text-gray-500"
+                                />
+                            </button>
+
+                            <button
+                                type="button"
+                                @click="addOption(question)"
+                                v-if="key === question.options.length - 1"
+                                class="flex flex-row items-center justify-center ml-2 font-medium"
+                            >
+                                <Plus
+                                    class="w-5 h-5 text-gray-800 dark:text-gray-500"
+                                />
+                                adicionar opção
+                            </button>
+                        </div>
                     </div>
                 </template>
 
                 <InputLabel
-                    :class="{
-                        'block font-medium text-sm mt-3': true,
-                        'text-white dark:text-gray-400':
-                            currentStepIndex % 2 === 0,
-                        'text-gray-700 dark:text-gray-300':
-                            currentStepIndex % 2 !== 0,
-                    }"
+                    :class="labelClasses + ' mt-2'"
                     :for="`step_${currentStepIndex}_question_${key}_description`"
                     value="Descrição da Pergunta:"
                 />
@@ -382,7 +384,7 @@ const save = () => {
                 <div class="flex w-full justify-end mt-2">
                     <button
                         type="button"
-                        class="btn btn-sm btn-outline-primary bg-gray-200 p-2 rounded-md text-sm flex items-center justify-center"
+                        class="btn btn-sm btn-outline-primary p-2 rounded-md text-sm flex items-center justify-center"
                         @click="addQuestion"
                         v-if="
                             key ===
@@ -444,8 +446,8 @@ const save = () => {
 
                 <div class="mt-2">
                     <button
-                        class="rounded-md text-gray-800 dark:text-gray-500 text-sm mr-3"
                         type="button"
+                        class="rounded-md text-gray-800 dark:text-gray-500 text-sm mr-3"
                         @click="removeStep(currentStepIndex)"
                         v-if="form.steps.length > 1"
                     >
@@ -456,8 +458,8 @@ const save = () => {
                     </button>
 
                     <button
-                        class="rounded-md text-gray-800 dark:text-gray-500 text-sm mr-2"
                         type="button"
+                        class="rounded-md text-gray-800 dark:text-gray-500 text-sm mr-2"
                         @click="addStep"
                     >
                         <div class="flex items-center justify-center">
@@ -466,8 +468,8 @@ const save = () => {
                         </div>
                     </button>
                     <button
-                        class="mt-2 bg-blue-700 p-2 rounded-md text-white text-sm ml-2"
                         type="button"
+                        class="mt-2 bg-blue-700 p-2 rounded-md text-white text-sm ml-2"
                         @click="save"
                     >
                         Finalizar e Salvar

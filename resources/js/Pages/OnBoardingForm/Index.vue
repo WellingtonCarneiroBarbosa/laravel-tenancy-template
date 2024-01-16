@@ -6,6 +6,7 @@ import TableRow from "@/Components/TableRow.vue";
 import TableRowActions from "@/Components/TableRowActions.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import HeaderTitle from "@/Components/HeaderTitle.vue";
+import { Link } from "@inertiajs/vue3";
 
 defineProps({
     onBoardings: {
@@ -41,7 +42,20 @@ defineProps({
                         }}
                     </TableRow>
                     <TableRowActions>
-                        <button>Deletar</button>
+                        <Link
+                            :href="
+                                route(
+                                    'app.on-boarding-form.edit',
+                                    onBoarding.id
+                                )
+                            "
+                        >
+                            <button
+                                class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500"
+                            >
+                                Editar
+                            </button>
+                        </Link>
                     </TableRowActions>
                 </tr>
             </template>

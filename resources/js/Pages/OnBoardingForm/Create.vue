@@ -4,6 +4,13 @@ import HeaderTitle from "@/Components/HeaderTitle.vue";
 import Form from "./Partials/Form.vue";
 import { useForm } from "@inertiajs/vue3";
 
+const props = defineProps({
+    lastOnBoarding: {
+        type: Object,
+        required: true,
+    },
+});
+
 const form = useForm({
     steps: [
         {
@@ -40,7 +47,10 @@ const handleSave = () => {
 <template>
     <AppLayout title="Criar Formulário de OnBoarding">
         <template #header>
-            <HeaderTitle>Criar Formulário de OnBoarding</HeaderTitle>
+            <HeaderTitle
+                >Criar Formulário de OnBoarding: Ciclo
+                {{ lastOnBoarding.cicle + 1 }}</HeaderTitle
+            >
         </template>
 
         <Form :form="form" @save="handleSave" />
