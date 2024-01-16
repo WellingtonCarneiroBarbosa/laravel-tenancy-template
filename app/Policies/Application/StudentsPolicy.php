@@ -21,7 +21,7 @@ class StudentsPolicy
     public function view(User $user, Student $model): bool
     {
         return tenant('id') == $user->current_team_id
-            && $model->getConnection()->getDatabaseName() == tenant('db_tenancy_name');
+            && $model->getConnection()->getDatabaseName() == tenant('tenancy_db_name');
     }
 
     /**
@@ -38,7 +38,7 @@ class StudentsPolicy
     public function update(User $user, Student $model): bool
     {
         return tenant('id') == $user->current_team_id
-            && $model->getConnection()->getDatabaseName() == tenant('db_tenancy_name');
+            && $model->getConnection()->getDatabaseName() == tenant('tenancy_db_name');
     }
 
     /**
@@ -47,7 +47,7 @@ class StudentsPolicy
     public function delete(User $user, Student $model): bool
     {
         return tenant('id') == $user->current_team_id
-            && $model->getConnection()->getDatabaseName() == tenant('db_tenancy_name');
+            && $model->getConnection()->getDatabaseName() == tenant('tenancy_db_name');
     }
 
     /**
@@ -56,7 +56,7 @@ class StudentsPolicy
     public function restore(User $user, Student $model): bool
     {
         return tenant('id') == $user->current_team_id
-            && $model->getConnection()->getDatabaseName() == tenant('db_tenancy_name');
+            && $model->getConnection()->getDatabaseName() == tenant('tenancy_db_name');
     }
 
     /**
@@ -65,6 +65,6 @@ class StudentsPolicy
     public function forceDelete(User $user, Student $model): bool
     {
         return tenant('id') == $user->current_team_id
-            && $model->getConnection()->getDatabaseName() == tenant('db_tenancy_name');
+            && $model->getConnection()->getDatabaseName() == tenant('tenancy_db_name');
     }
 }

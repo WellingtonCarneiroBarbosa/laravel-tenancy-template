@@ -17,6 +17,11 @@ const props = defineProps({
     },
 });
 
+const getFirstLastName = (name) => {
+    const names = name.split(" ");
+    return names[0] + " " + names[names.length - 1];
+};
+
 const destroyForm = useForm({
     id: "",
 });
@@ -70,12 +75,14 @@ const destroy = (student) => {
             <template #table-body>
                 <tr v-for="(student, key) in students.data" :key="key">
                     <TableRow>
-                        <div class="flex flex-row items-center mr-6">
+                        <div class="flex flex-row items-center mr-6 w-24">
                             <img
                                 :src="student.profile_photo_url"
                                 class="w-12 h-12 rounded-full mr-2"
                             />
-                            <p class="font-bold">{{ student.name }}</p>
+                            <p class="font-bold text-wrap">
+                                {{ getFirstLastName(student.name) }}
+                            </p>
                         </div>
                     </TableRow>
                     <TableRow> Notas </TableRow>

@@ -12,6 +12,10 @@ defineProps({
         type: Object,
         required: true,
     },
+    mode: {
+        type: String,
+        default: "create",
+    },
 });
 
 const emit = defineEmits(["submitted"]);
@@ -33,7 +37,13 @@ const cpfMask = reactive({
 
         <template #description>
             <p class="text-gray-600 dark:text-gray-400">
-                Insira as informações do aluno para cadastrá-lo.
+                <template v-if="mode === 'create'">
+                    Insira as informações do aluno para cadastrá-lo.
+                </template>
+
+                <template v-if="mode === 'edit'">
+                    Atualize as informações do aluno.
+                </template>
                 <br />
                 As informações obrigatórias estão marcadas com um *.
             </p>
@@ -92,52 +102,66 @@ const cpfMask = reactive({
                     value="Data de Expiração de Acesso*"
                 />
 
-                <SelectInput
-                    id="student_access_expires_at_form"
-                    class="mt-1 w-full"
-                    v-model="form.access_expires_at"
-                    :invalid="form.errors.access_expires_at"
-                    :disabled="form.processing"
-                    :options="[
-                        {
-                            label: '7 dias',
-                            value: '7',
-                        },
-                        {
-                            label: '15 dias',
-                            value: '15',
-                        },
-                        {
-                            label: '1 mês',
-                            value: '30',
-                        },
-                        {
-                            label: '2 meses',
-                            value: '60',
-                        },
-                        {
-                            label: '3 meses',
-                            value: '90',
-                        },
-                        {
-                            label: '6 meses',
-                            value: '180',
-                        },
-                        {
-                            label: '1 ano',
-                            value: '360',
-                        },
-                        {
-                            label: '2 anos',
-                            value: '720',
-                        },
-                        {
-                            label: 'Não expira',
-                            value: '0',
-                        },
-                    ]"
-                    required
-                />
+                <template v-if="mode === 'create'">
+                    <SelectInput
+                        id="student_access_expires_at_form"
+                        class="mt-1 w-full"
+                        v-model="form.access_expires_at"
+                        :invalid="form.errors.access_expires_at"
+                        :disabled="form.processing"
+                        :options="[
+                            {
+                                label: '7 dias',
+                                value: '7',
+                            },
+                            {
+                                label: '15 dias',
+                                value: '15',
+                            },
+                            {
+                                label: '1 mês',
+                                value: '30',
+                            },
+                            {
+                                label: '2 meses',
+                                value: '60',
+                            },
+                            {
+                                label: '3 meses',
+                                value: '90',
+                            },
+                            {
+                                label: '6 meses',
+                                value: '180',
+                            },
+                            {
+                                label: '1 ano',
+                                value: '360',
+                            },
+                            {
+                                label: '2 anos',
+                                value: '720',
+                            },
+                            {
+                                label: 'Não expira',
+                                value: '0',
+                            },
+                        ]"
+                        required
+                    />
+                </template>
+
+                <template v-if="mode === 'edit'">
+                    <TextInput
+                        id="student_access_expires_at_form"
+                        class="mt-1 w-full"
+                        v-model="form.access_expires_at"
+                        :invalid="form.errors.access_expires_at"
+                        :disabled="form.processing"
+                        type="date"
+                        required
+                    />
+                </template>
 
                 <InputError :message="form.errors.access_expires_at" />
             </div>
@@ -150,7 +174,7 @@ const cpfMask = reactive({
                 :disabled="form.processing"
                 @click="emit('submitted')"
             >
-                Adicionar
+                Salvar
             </PrimaryButton>
         </template>
     </FormSection>
