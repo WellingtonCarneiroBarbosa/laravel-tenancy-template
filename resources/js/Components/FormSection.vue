@@ -35,7 +35,7 @@ const hasActions = computed(() => !!useSlots().actions);
                             : 'sm:rounded-md'
                     "
                 >
-                    <div class="grid grid-cols-6 gap-6">
+                    <div class="grid grid-cols-12 gap-6">
                         <slot name="form" />
                     </div>
                 </div>

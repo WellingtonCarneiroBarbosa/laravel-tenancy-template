@@ -1,11 +1,13 @@
 <script setup>
 import { watch, ref } from "vue";
 import { UserCheck2, X } from "lucide-vue-next";
-import Dropdown from "@/Components/Dropdown.vue";
+import ApplicationMark from "@/Components/ApplicationMark.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import { Head, Link, router, usePage } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 
-const showingNavigationDropdown = ref(false);
+const props = defineProps({
+    showingNavigationDropdown: Boolean,
+});
 
 const backdrop = ref(null);
 
@@ -16,7 +18,7 @@ const logout = () => {
 };
 
 watch(
-    () => showingNavigationDropdown.value,
+    () => props.showingNavigationDropdown.value,
     (newValue) => {
         if (newValue) {
             backdrop.value.classList.remove("hidden");

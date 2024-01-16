@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
@@ -13,6 +13,8 @@ const props = defineProps({
 });
 
 const page = usePage();
+
+const showingNavigationDropdown = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
@@ -382,6 +384,6 @@ onMounted(() => {
             </main>
         </div>
 
-        <Sidebar />
+        <Sidebar :showing-navigation-dropdown="showingNavigationDropdown" />
     </div>
 </template>

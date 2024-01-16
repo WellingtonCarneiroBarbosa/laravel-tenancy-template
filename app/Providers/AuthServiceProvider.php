@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         ApplicationModels\OnBoardingForm::class => ApplicationPolicies\OnBoardingFormPolicy::class,
+        ApplicationModels\User::class           => ApplicationPolicies\StudentsPolicy::class,
     ];
 
     /**

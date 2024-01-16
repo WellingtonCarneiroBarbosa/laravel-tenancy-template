@@ -13,12 +13,11 @@ return new class () extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('cpf')->unique()->index();
+            $table->string('cpf')->nullable()->unique()->index();
             $table->string('email')->unique()->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('on_boarding_step')->nullable();
             $table->timestamp('next_cycle_at')->nullable();
@@ -26,6 +25,7 @@ return new class () extends Migration {
             $table->timestamp('on_boarding_completed_at')->nullable();
             $table->timestamp('access_expires_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

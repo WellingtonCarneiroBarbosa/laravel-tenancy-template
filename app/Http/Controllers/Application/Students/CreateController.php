@@ -2,18 +2,34 @@
 
 namespace App\Http\Controllers\Application\Students;
 
+use App\Actions\Application\Student\Create;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Application\Students\CreateRequest;
+use App\Models\Application\User;
 use Inertia\Inertia;
 
 class CreateController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke()
     {
+        $this->authorize('create', User::class);
+
         return Inertia::render('Students/Create');
     }
 
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
+        $this->authorize('create', User::class);
+
+        $data = $request->validated();
+
+        $studentCreator = new Create($data);
+        $studentCreator->execute();
+
+        return redirect()->route('app.students.index')
+            ->with('flash', [
+                'type'    => 'success',
+                'message' => 'Aluno criado com sucesso! Acesso enviado por e-mail.',
+            ]);
     }
 }
