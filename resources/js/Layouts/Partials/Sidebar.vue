@@ -95,7 +95,7 @@ watch(
                     class="hs-accordion"
                     id="forms-accordion"
                     :class="{
-                        active: route().current('app.on-boarding-form.*'),
+                        active: route().current('app.students.*'),
                     }"
                 >
                     <button
@@ -147,16 +147,16 @@ watch(
                         <ul class="pt-2 ps-2">
                             <li>
                                 <Link
-                                    :href="route('app.on-boarding-form.index')"
+                                    :href="route('app.students.index')"
                                     :class="{
                                         'bg-gray-100 dark:bg-gray-900':
                                             route().current(
-                                                'app.on-boarding-form.index'
+                                                'app.students.index'
                                             ),
                                     }"
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                                 >
-                                    Meus Formulários
+                                    Meus Alunos
                                 </Link>
                             </li>
                             <li>
