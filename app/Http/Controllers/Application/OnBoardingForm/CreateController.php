@@ -18,7 +18,12 @@ class CreateController extends Controller
     {
         $data = $request->validated();
 
-        $onBoarding = new OnBoardingForm();
+        $lastOnBoarding = OnBoardingForm::query()
+            ->orderBy('cicle', 'desc')
+            ->first();
+
+        $onBoarding        = new OnBoardingForm();
+        $onBoarding->cicle = $lastOnBoarding ? $lastOnBoarding->cicle + 1 : 1;
 
         $onBoarding->forceFill($data)->save();
 

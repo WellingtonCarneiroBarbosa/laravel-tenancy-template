@@ -41,12 +41,24 @@ onMounted(() => {
     if (page.props.flash) {
         let flash = page.props.flash;
 
+        const getTitle = (type = flash.type) => {
+            if (type === "success") {
+                return "Sucesso!";
+            }
+
+            if (type === "error") {
+                return "Erro!";
+            }
+
+            return "Atenção!";
+        };
+
         Swal.fire({
-            title: flash.type === "success" ? "Sucesso!" : "Erro!",
+            title: getTitle(),
             text: flash.message,
             icon: flash.type,
-            timer: 3000,
-            showConfirmButton: false,
+            timer: 5000,
+            showConfirmButton: true,
         });
     }
 });

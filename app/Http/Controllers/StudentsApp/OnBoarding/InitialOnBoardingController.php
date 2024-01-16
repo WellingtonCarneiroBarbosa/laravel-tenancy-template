@@ -10,7 +10,7 @@ class InitialOnBoardingController extends Controller
 {
     public function __invoke()
     {
-        $onBoardingForm = OnBoardingForm::where('is_initial', true)->firstOrFail();
+        $onBoardingForm = OnBoardingForm::where('cicle', 1)->firstOrFail();
 
         return Inertia::render('App/OnBoarding/InitialOnBoarding/Index', [
             'onBoardingForm' => $onBoardingForm,

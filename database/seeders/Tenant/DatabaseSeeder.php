@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
             OnBoardingForm::factory(1, [
-                'is_initial' => true,
+                'cicle' => 1,
             ])->create();
         }
     }
