@@ -24,6 +24,7 @@ return new class () extends Migration {
             $table->timestamp('next_cycle_at')->nullable();
             $table->timestamp('initial_on_boarding_completed_at')->nullable();
             $table->timestamp('on_boarding_completed_at')->nullable();
+            $table->timestamp('access_expires_at')->nullable();
             $table->timestamps();
         });
     }

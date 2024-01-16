@@ -11,4 +11,6 @@ Route::middleware([
     Route::get('/', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    require __DIR__ . '/students/routes.php';
 });
