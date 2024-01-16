@@ -37,7 +37,7 @@ const createTeam = () => {
         </template>
 
         <template #form>
-            <div class="col-span-6">
+            <div class="col-span-12">
                 <InputLabel value="Manager do App" />
 
                 <div class="flex items-center mt-2">
@@ -58,7 +58,7 @@ const createTeam = () => {
                 </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-12">
                 <InputLabel for="name" value="Nome do App" />
                 <TextInput
                     id="name"

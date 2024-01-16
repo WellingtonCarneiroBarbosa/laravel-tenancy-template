@@ -118,7 +118,7 @@ const displayableRole = (role) => {
                 </template>
 
                 <template #form>
-                    <div class="col-span-6">
+                    <div class="col-span-12">
                         <div
                             class="max-w-xl text-sm text-gray-600 dark:text-gray-400"
                         >
@@ -128,7 +128,7 @@ const displayableRole = (role) => {
                     </div>
 
                     <!-- Member Email -->
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-12">
                         <InputLabel for="email" value="E-mail" />
                         <TextInput
                             id="email"
@@ -143,10 +143,7 @@ const displayableRole = (role) => {
                     </div>
 
                     <!-- Role -->
-                    <div
-                        v-if="availableRoles.length > 0"
-                        class="col-span-6 lg:col-span-4"
-                    >
+                    <div v-if="availableRoles.length > 0" class="col-span-12">
                         <InputLabel for="roles" value="Função" />
                         <InputError
                             :message="addTeamMemberForm.errors.role"

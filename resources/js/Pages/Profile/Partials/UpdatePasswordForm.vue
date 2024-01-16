@@ -46,7 +46,7 @@ const updatePassword = () => {
         </template>
 
         <template #form>
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-12">
                 <InputLabel for="current_password" value="Senha Atual" />
                 <TextInput
                     id="current_password"
@@ -62,7 +62,7 @@ const updatePassword = () => {
                 />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-12">
                 <InputLabel for="password" value="Nova Senha" />
                 <TextInput
                     id="password"
@@ -75,7 +75,7 @@ const updatePassword = () => {
                 <InputError :message="form.errors.password" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-12">
                 <InputLabel
                     for="password_confirmation"
                     value="Confirmar Senha"

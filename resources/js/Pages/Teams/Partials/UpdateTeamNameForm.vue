@@ -34,7 +34,7 @@ const updateTeamName = () => {
 
         <template #form>
             <!-- Team Owner Information -->
-            <div class="col-span-6">
+            <div class="col-span-12">
                 <InputLabel value="Manager do App" />
 
                 <div class="flex items-center mt-2">
@@ -56,7 +56,7 @@ const updateTeamName = () => {
             </div>
 
             <!-- Team Name -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-12">
                 <InputLabel for="name" value="Nome do Aplicativo" />
 
                 <TextInput
@@ -70,12 +70,12 @@ const updateTeamName = () => {
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-12">
                 <InputLabel for="login_code" value="Código de Login:" />
 
                 <TextInput
                     id="login_code"
-                    :value="team.share_code"
+                    v-model="team.share_code"
                     type="text"
                     class="mt-1 block w-full"
                     readonly
