@@ -16,6 +16,10 @@ class ShouldHaveAtLeastTwoOnBoardingForms
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (tenant() === null) {
+            return redirect()->route('app.dashboard');
+        }
+
         if (OnBoardingForm::count() < 2) {
             if (!OnBoardingForm::where('cicle', 1)->exists()) {
                 return redirect()->route('app.on-boarding-form.create-initial')
