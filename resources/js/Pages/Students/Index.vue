@@ -8,10 +8,11 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import HeaderTitle from "@/Components/HeaderTitle.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
+import dateFormatter from "@/Helpers/dateFormatter.js";
 
 const props = defineProps({
     students: {
-        type: Array,
+        type: Object,
         required: true,
     },
 });
@@ -77,7 +78,9 @@ const destroy = (student) => {
                     </TableRow>
                     <TableRow>
                         {{
-                            student.access_expires_at ?? "Sem data de expiração"
+                            student.access_expires_at
+                                ? dateFormatter(student.access_expires_at)
+                                : "Sem data de expiração"
                         }}
                     </TableRow>
                     <TableRowActions>
