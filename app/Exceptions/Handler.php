@@ -57,5 +57,7 @@ class Handler extends ExceptionHandler
                 'message' => $message,
             ]);
         }
+
+        return parent::render($request, $e);
     }
 }
