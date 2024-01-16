@@ -163,8 +163,9 @@ const save = () => {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Sim, salvar!",
         cancelButtonText: "Cancelar",
+        confirmButtonText: "Sim, salvar!",
+        reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
             emit("save");

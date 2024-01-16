@@ -29,8 +29,8 @@ const destroy = (onBoardingForm) => {
         text: "Você não poderá reverter isso!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Sim, delete isso!",
         cancelButtonText: "Não, cancele!",
+        confirmButtonText: "Sim, delete isso!",
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
