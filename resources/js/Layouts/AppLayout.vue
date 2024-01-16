@@ -386,7 +386,9 @@ onMounted(() => {
                 v-if="$slots.header"
                 class="bg-white dark:bg-gray-800 shadow"
             >
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div
+                    class="flex justify-between max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"
+                >
                     <slot name="header" />
                 </div>
             </header>
@@ -572,14 +574,7 @@ onMounted(() => {
                                         Novo
                                     </Link>
                                 </li>
-                                <li>
-                                    <a
-                                        class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                        href="#"
-                                    >
-                                        Link 3
-                                    </a>
-                                </li>
+                                2
                             </ul>
                         </div>
                     </li>
@@ -587,6 +582,7 @@ onMounted(() => {
 
                 <ul
                     class="absolute bottom-0 left-0 px-7 mb-10 space-y-1.5 w-full"
+                    v-if="showingNavigationDropdown"
                 >
                     <div
                         class="border-t border-gray-200 dark:border-gray-600 mb-3"

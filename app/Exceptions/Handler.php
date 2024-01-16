@@ -27,4 +27,24 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $e)
+    {
+        if (!$request->expectsJson()) {
+            $message = $e->getMessage();
+
+            if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+                $message = 'Registro não encontrado.';
+            }
+
+            if ($e instanceof \Illuminate\Auth\Access\AuthorizationException) {
+                $message = 'Você não tem permissão para performar essa ação.';
+            }
+
+            return redirect()->back()->with('flash', [
+                'type'    => 'error',
+                'message' => $message,
+            ]);
+        }
+    }
 }

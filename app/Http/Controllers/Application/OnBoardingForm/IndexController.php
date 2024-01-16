@@ -10,6 +10,8 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
+        $this->authorize('viewAny', OnBoardingForm::class);
+
         $onBoardings = OnBoardingForm::query()
             ->orderBy('cicle', 'asc')
             ->get();

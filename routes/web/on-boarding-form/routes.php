@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Application\OnBoardingForm\CreateController;
 use App\Http\Controllers\Application\OnBoardingForm\CreateInitialController;
+use App\Http\Controllers\Application\OnBoardingForm\DeleteController;
 use App\Http\Controllers\Application\OnBoardingForm\IndexController;
 use App\Http\Controllers\Application\OnBoardingForm\UpdateController;
 
@@ -15,6 +16,6 @@ Route::prefix('on-boarding-form')->name('on-boarding-form.')->group(function () 
         Route::get('/edit', UpdateController::class)->name('edit');
         Route::put('/edit', [UpdateController::class, 'update']);
 
-        Route::delete('/delete', [UpdateController::class, 'update'])->name('delete');
+        Route::delete('/delete', DeleteController::class)->name('delete');
     });
 });

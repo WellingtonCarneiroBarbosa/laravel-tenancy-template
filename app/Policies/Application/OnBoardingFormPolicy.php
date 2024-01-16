@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Application;
 
 use App\Models\Application\OnBoardingForm;
 use App\Models\User;
@@ -12,7 +12,7 @@ class OnBoardingFormPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return tenant('id') == $user->current_team_id;
     }
 
     /**
@@ -20,7 +20,7 @@ class OnBoardingFormPolicy
      */
     public function view(User $user, OnBoardingForm $onBoardingForm): bool
     {
-        return true;
+        return tenant('id') == $user->current_team_id;
     }
 
     /**
@@ -28,7 +28,14 @@ class OnBoardingFormPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return tenant('id') == $user->current_team_id;
+    }
+
+    public function createInitial(User $user): bool
+    {
+        return OnBoardingForm::whereApplicationId(
+            tenant('id')
+        )->notExists();
     }
 
     /**
@@ -36,7 +43,9 @@ class OnBoardingFormPolicy
      */
     public function update(User $user, OnBoardingForm $onBoardingForm): bool
     {
-        return true;
+        $databaseName = $onBoardingForm->getConnection()->getDatabaseName();
+
+        return tenant('tenancy_db_name') == $databaseName;
     }
 
     /**
@@ -44,7 +53,10 @@ class OnBoardingFormPolicy
      */
     public function delete(User $user, OnBoardingForm $onBoardingForm): bool
     {
-        return true;
+        $databaseName = $onBoardingForm->getConnection()->getDatabaseName();
+
+        return tenant('tenancy_db_name') == $databaseName
+            && !in_array($onBoardingForm->cicle, [1, 2]);
     }
 
     /**

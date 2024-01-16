@@ -11,6 +11,8 @@ class CreateController extends Controller
 {
     public function __invoke()
     {
+        $this->authorize('create', OnBoardingForm::class);
+
         $lastOnBoarding = OnBoardingForm::query()
             ->orderBy('cicle', 'desc')
             ->first();

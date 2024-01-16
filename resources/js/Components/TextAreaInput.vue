@@ -18,7 +18,7 @@ const props = defineProps({
 
 const attrs = useAttrs();
 
-defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
 
 const input = ref(null);
 
@@ -42,6 +42,12 @@ watch(
         }
     }
 );
+
+const handleInput = (value) => {
+    autoExpand(input.value);
+
+    emit("update:modelValue", value);
+};
 defineExpose({ focus: () => input.value.focus() });
 </script>
 
@@ -52,10 +58,7 @@ defineExpose({ focus: () => input.value.focus() });
             v-bind="attrs"
             :value="modelValue"
             :disabled="loading"
-            @input="
-                autoExpand($event.target) &&
-                    $emit('update:modelValue', $event.target.value)
-            "
+            @input="handleInput($event.target.value)"
             v-on:load="autoExpand($event.target)"
             :class="{
                 'border-red-500 focus:border-red-500 focus:ring-red-500':

@@ -4,8 +4,8 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
-use App\Models\Application\OnBoardingForm;
-use App\Policies\OnBoardingFormPolicy;
+use App\Models\Application as ApplicationModels;
+use App\Policies\Application as ApplicationPolicies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        OnBoardingForm::class => OnBoardingFormPolicy::class,
+        ApplicationModels\OnBoardingForm::class => ApplicationPolicies\OnBoardingFormPolicy::class,
     ];
 
     /**

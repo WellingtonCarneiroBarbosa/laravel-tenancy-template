@@ -11,20 +11,16 @@ class CreateInitialController extends Controller
 {
     public function __invoke()
     {
+        $this->authorize('createInitial', OnBoardingForm::class);
+
         return Inertia::render('OnBoardingForm/CreateInitial');
     }
 
     public function store(OnBoardingFormCreateRequest $request)
     {
+        $this->authorize('createInitial', OnBoardingForm::class);
+
         $data = $request->validated();
-
-        $tenant = tenant();
-
-        if (OnBoardingForm::whereApplicationId($tenant->id)->exists()) {
-            return response()->json([
-                'message' => 'Initial onboarding form already exists',
-            ], 400);
-        }
 
         $onBoarding = new OnBoardingForm();
 

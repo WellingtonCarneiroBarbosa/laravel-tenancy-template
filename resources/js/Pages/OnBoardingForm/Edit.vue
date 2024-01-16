@@ -2,8 +2,9 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import HeaderTitle from "@/Components/HeaderTitle.vue";
 import Form from "./Partials/Form.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
 import { onMounted } from "vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
     onBoardingForm: Object,
@@ -15,7 +16,14 @@ const form = useForm({
 });
 
 const handleSave = () => {
-    form.post(route("app.on-boarding-form.create"));
+    form.put(
+        route("app.on-boarding-form.edit", {
+            onBoardingForm: props.onBoardingForm.id,
+        }),
+        {
+            preserveState: false,
+        }
+    );
 };
 
 onMounted(() => {
@@ -26,6 +34,7 @@ onMounted(() => {
     questions.map((qs) => {
         qs.questions.map((question) => {
             question.showEditInputLabel = false;
+            question.description = question.description ?? "";
 
             if (
                 question.type === "select" ||
@@ -56,6 +65,10 @@ onMounted(() => {
                 Editar Formulário de OnBoarding: Ciclo
                 {{ onBoardingForm.cicle }}
             </HeaderTitle>
+
+            <Link :href="route('app.on-boarding-form.index')">
+                <PrimaryButton> Voltar </PrimaryButton>
+            </Link>
         </template>
 
         <Form
