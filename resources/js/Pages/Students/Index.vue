@@ -70,7 +70,13 @@ const destroy = (student) => {
             <template #table-body>
                 <tr v-for="(student, key) in students.data" :key="key">
                     <TableRow>
-                        {{ student.name }}
+                        <div class="flex flex-row items-center mr-6">
+                            <img
+                                :src="student.profile_photo_url"
+                                class="w-12 h-12 rounded-full mr-2"
+                            />
+                            <p class="font-bold">{{ student.name }}</p>
+                        </div>
                     </TableRow>
                     <TableRow> Notas </TableRow>
                     <TableRow>
