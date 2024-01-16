@@ -304,7 +304,7 @@ const save = () => {
                 >
                     <div class="flex flex-wrap justify-start gap-x-4 w-full">
                         <div
-                            class="flex flex-row gap-x-1 mt-2"
+                            class="flex flex-row items-center justify-center gap-x-1 mt-2"
                             v-for="(option, key) in question.options"
                         >
                             <InputLabel
