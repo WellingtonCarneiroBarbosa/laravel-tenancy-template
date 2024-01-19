@@ -88,7 +88,7 @@ const anyResultsMessage = computed(() => {
         return `Nenhum resultado encontrado com o ${type} <b>${term}</b>`;
     }
 
-    return "Você ainda não tem alunos cadastrados. Cadastre um para acessar o aplicativo ;)";
+    return "Você ainda não tem Usuários cadastrados. Cadastre um para acessar o aplicativo ;)";
 });
 
 const destroy = (user) => {
@@ -117,9 +117,9 @@ const destroy = (user) => {
 </script>
 
 <template>
-    <AppLayout title="Alunos">
+    <AppLayout title="Usuários">
         <template #header>
-            <HeaderTitle>Alunos</HeaderTitle>
+            <HeaderTitle>Usuários</HeaderTitle>
 
             <template v-if="filterMode">
                 <Link :href="route('app.users.index')"> Limpar Filtros </Link>

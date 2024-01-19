@@ -103,7 +103,7 @@ watch(
                         class="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                     >
                         <UserCheck2 class="w-4 h-4" />
-                        Alunos
+                        Usuários
 
                         <svg
                             class="hs-accordion-active:block ms-auto hidden w-4 h-4 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
@@ -154,7 +154,7 @@ watch(
                                     }"
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                                 >
-                                    Meus Alunos
+                                    Meus Usuários
                                 </Link>
                             </li>
                             <li>
@@ -176,14 +176,17 @@ watch(
 
             <ul
                 class="absolute bottom-0 left-0 px-7 mb-10 space-y-1.5 w-full"
-                v-if="showingNavigationDropdown"
+                :class="{
+                    hidden: !showingNavigationDropdown,
+                }"
             >
                 <div
                     class="border-t border-gray-200 dark:border-gray-600 mb-3"
                 />
+
                 <li
                     class="hs-accordion"
-                    id="account-accordion"
+                    id="settings-accordion"
                     :class="{
                         hidden: !showingNavigationDropdown,
                         active:
@@ -193,7 +196,7 @@ watch(
                 >
                     <button
                         type="button"
-                        class="hs-accordion-toggle bg-gray-100 dark:bg-gray-800 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                        class="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                     >
                         Configurações
 
@@ -230,7 +233,7 @@ watch(
                     </button>
 
                     <div
-                        id="account-accordion"
+                        id="settings-accordion"
                         class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
                         :class="{
                             hidden:

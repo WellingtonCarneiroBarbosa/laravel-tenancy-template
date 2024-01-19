@@ -81,8 +81,8 @@ const updateTeamName = () => {
                     readonly
                 />
                 <span class="text-sm"
-                    >Informe esse código aos seus novos alunos. Esse é o código
-                    que eles deverão inserir para acessar o seu
+                    >Informe esse código aos seus novos Usuários. Esse é o
+                    código que eles deverão inserir para acessar o seu
                     aplicativo.</span
                 >
             </div>

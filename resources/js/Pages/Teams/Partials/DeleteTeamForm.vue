@@ -33,7 +33,7 @@ const deleteTeam = () => {
         <template #content>
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
                 Uma vez desativado, todos os dados desse app, bem como o acesso
-                dos alunos, serão permanentemente desativados. Antes de
+                dos Usuários, serão permanentemente desativados. Antes de
                 desativar esse app, por favor, faça o download de todos os dados
                 que deseja manter.
             </div>
@@ -54,7 +54,7 @@ const deleteTeam = () => {
                 <template #content>
                     Você tem certeza que deseja desativar esse app? Uma vez
                     desativado, todos os dados desse app, bem como o acesso dos
-                    alunos, serão permanentemente desativados.
+                    Usuários, serão permanentemente desativados.
                 </template>
 
                 <template #footer>
