@@ -52,7 +52,7 @@ watch(
                     class="shrink-0 flex flex-row items-center gap-x-2"
                 >
                     <ApplicationMark class="block h-9 w-auto" />
-                    Coach Manager
+                    Agenda Aí
                 </Link>
             </a>
         </div>
@@ -95,7 +95,7 @@ watch(
                     class="hs-accordion"
                     id="forms-accordion"
                     :class="{
-                        active: route().current('app.students.*'),
+                        active: route().current('app.users.*'),
                     }"
                 >
                     <button
@@ -141,18 +141,16 @@ watch(
                         id="forms-accordion"
                         class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
                         :class="{
-                            hidden: !route().current('app.students.*'),
+                            hidden: !route().current('app.users.*'),
                         }"
                     >
                         <ul class="pt-2 ps-2">
                             <li>
                                 <Link
-                                    :href="route('app.students.index')"
+                                    :href="route('app.users.index')"
                                     :class="{
                                         'bg-gray-100 dark:bg-gray-900':
-                                            route().current(
-                                                'app.students.index'
-                                            ),
+                                            route().current('app.users.index'),
                                     }"
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                                 >
@@ -161,120 +159,14 @@ watch(
                             </li>
                             <li>
                                 <Link
-                                    :href="route('app.students.create')"
+                                    :href="route('app.users.create')"
                                     :class="{
                                         'bg-gray-100 dark:bg-gray-900':
-                                            route().current(
-                                                'app.students.create'
-                                            ),
+                                            route().current('app.users.create'),
                                     }"
                                     class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                                 >
                                     Adicionar
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li
-                    class="hs-accordion"
-                    id="forms-accordion"
-                    :class="{
-                        active: route().current('app.on-boarding-form.*'),
-                    }"
-                >
-                    <button
-                        type="button"
-                        class="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    >
-                        <svg
-                            class="w-4 h-4"
-                            xmlns="ƒhttp://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path
-                                d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"
-                            />
-                            <path
-                                d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8"
-                            />
-                            <path d="M15 2v5h5" />
-                        </svg>
-                        Formulários
-
-                        <svg
-                            class="hs-accordion-active:block ms-auto hidden w-4 h-4 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="m18 15-6-6-6 6" />
-                        </svg>
-
-                        <svg
-                            class="hs-accordion-active:hidden ms-auto block w-4 h-4 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                            ></path>
-                        </svg>
-                    </button>
-
-                    <div
-                        id="forms-accordion"
-                        class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
-                        :class="{
-                            hidden: !route().current('app.on-boarding-form.*'),
-                        }"
-                    >
-                        <ul class="pt-2 ps-2">
-                            <li>
-                                <Link
-                                    :href="route('app.on-boarding-form.index')"
-                                    :class="{
-                                        'bg-gray-100 dark:bg-gray-900':
-                                            route().current(
-                                                'app.on-boarding-form.index'
-                                            ),
-                                    }"
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                >
-                                    Meus Formulários
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    :href="route('app.on-boarding-form.create')"
-                                    :class="{
-                                        'bg-gray-100 dark:bg-gray-900':
-                                            route().current(
-                                                'app.on-boarding-form.create'
-                                            ),
-                                    }"
-                                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                >
-                                    Novo
                                 </Link>
                             </li>
                         </ul>

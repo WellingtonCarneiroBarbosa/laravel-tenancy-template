@@ -8,7 +8,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        $databases = DB::select('SHOW DATABASES LIKE "coach_manager_app_%"');
+        $databases = DB::select('SHOW DATABASES LIKE "agenda_ai_app_%"');
 
         foreach ($databases as $database) {
             $database = collect(json_decode(json_encode($database), true));

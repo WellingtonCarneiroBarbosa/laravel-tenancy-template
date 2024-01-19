@@ -34,6 +34,6 @@ Route::middleware([
     require __DIR__ . '/web/routes.php';
 });
 
-require __DIR__ . '/students-app-web/routes.php';
+require __DIR__ . '/users-app-web/routes.php';
 
 require __DIR__ . '/jetstream.php';

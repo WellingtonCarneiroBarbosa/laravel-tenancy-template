@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware\StudentsApp;
+namespace App\Http\Middleware\UsersApp;
 
 use Illuminate\Http\Request;
 
@@ -24,9 +24,9 @@ class Authenticated
     protected function redirectTo(Request $request): ?string
     {
         return $request->expectsJson() ? null : (
-            tenant()?->id ? route('students-app.auth.login', [
+            tenant()?->id ? route('users-app.auth.login', [
                 'tenant' => tenant()->id,
-            ]) : route('students-app.index')
+            ]) : route('users-app.index')
         );
     }
 }

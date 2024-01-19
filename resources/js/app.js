@@ -11,13 +11,13 @@ import VueSweetAlert from "vue-sweetalert2";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
-if (window.location.pathname.includes("students-app")) {
+if (window.location.pathname.includes("users-app")) {
     createInertiaApp({
         title: (title) => `${title} - ${appName}`,
         resolve: (name) =>
             resolvePageComponent(
-                `./StudentsApp/Pages/${name}.vue`,
-                import.meta.glob("./StudentsApp/Pages/**/*.vue")
+                `./UsersApp/Pages/${name}.vue`,
+                import.meta.glob("./UsersApp/Pages/**/*.vue")
             ),
         setup({ el, App, props, plugin }) {
             let coach_app_id = window.location.pathname.split("/")[2];

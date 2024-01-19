@@ -1,16 +1,9 @@
 <?php
 
-use App\Http\Middleware\ShouldHaveAtLeastTwoOnBoardingForms;
 use Inertia\Inertia;
 
-require __DIR__ . '/on-boarding-form/routes.php';
+Route::get('/', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
 
-Route::middleware([
-    ShouldHaveAtLeastTwoOnBoardingForms::class,
-])->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-
-    require __DIR__ . '/students/routes.php';
-});
+require __DIR__ . '/users/routes.php';

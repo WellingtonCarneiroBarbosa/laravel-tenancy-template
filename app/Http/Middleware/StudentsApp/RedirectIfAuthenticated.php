@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware\StudentsApp;
+namespace App\Http\Middleware\UsersApp;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect()->route('students-app.app.home', [
+                return redirect()->route('users-app.app.home', [
                     'tenant' => tenant()->id,
                 ]);
             }

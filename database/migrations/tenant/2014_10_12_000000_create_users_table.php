@@ -19,11 +19,6 @@ return new class () extends Migration {
             $table->string('password');
             $table->rememberToken();
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->string('on_boarding_step')->nullable();
-            $table->timestamp('next_cycle_at')->nullable();
-            $table->timestamp('initial_on_boarding_completed_at')->nullable();
-            $table->timestamp('on_boarding_completed_at')->nullable();
-            $table->timestamp('access_expires_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
