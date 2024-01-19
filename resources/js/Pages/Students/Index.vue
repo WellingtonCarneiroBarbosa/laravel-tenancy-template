@@ -11,6 +11,7 @@ import { Link, useForm, router } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 import dateFormatter from "@/Helpers/dateFormatter.js";
 import Notes from "./Partials/Notes.vue";
+import TableFilter from "./Partials/TableFilter.vue";
 
 const props = defineProps({
     students: {
@@ -20,6 +21,10 @@ const props = defineProps({
     notes: {
         type: Object,
         required: false,
+    },
+    filterMode: {
+        type: Boolean,
+        default: false,
     },
 });
 
@@ -70,6 +75,22 @@ const destroyForm = useForm({
     id: "",
 });
 
+const anyResultsMessage = computed(() => {
+    if (props.filterMode) {
+        let url = new URL(window.location.href);
+
+        let term = url.searchParams.get("term");
+
+        let type = url.searchParams.get("type");
+
+        type = type === "name" ? "Nome" : "E-mail";
+
+        return `Nenhum resultado encontrado com o ${type} <b>${term}</b>`;
+    }
+
+    return "Você ainda não tem alunos cadastrados. Cadastre um para acessar o aplicativo ;)";
+});
+
 const destroy = (student) => {
     Swal.fire({
         title: "Você tem certeza? O aluno " + student.name + " será deletado!",
@@ -98,7 +119,13 @@ const destroy = (student) => {
 <template>
     <AppLayout title="Alunos">
         <template #header>
-            <HeaderTitle>Alunos </HeaderTitle>
+            <HeaderTitle>Alunos</HeaderTitle>
+
+            <template v-if="filterMode">
+                <Link :href="route('app.students.index')">
+                    Limpar Filtros
+                </Link>
+            </template>
         </template>
 
         <Notes
@@ -114,7 +141,11 @@ const destroy = (student) => {
             </Link>
         </div>
 
-        <TableContainer>
+        <TableContainer v-if="students.data.length >= 1">
+            <template #table-filters>
+                <TableFilter :filter-mode="props.filterMode" />
+            </template>
+
             <template #table-header>
                 <TableHeader>Nome</TableHeader>
                 <TableHeader>Prontuário</TableHeader>
@@ -184,5 +215,10 @@ const destroy = (student) => {
                 </tr>
             </template>
         </TableContainer>
+
+        <template v-else>
+            <TableFilter :filter-mode="props.filterMode" />
+            <p v-html="anyResultsMessage"></p>
+        </template>
     </AppLayout>
 </template>

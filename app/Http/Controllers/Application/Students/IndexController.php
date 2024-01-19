@@ -18,12 +18,21 @@ class IndexController extends Controller
             'notes'    => Inertia::lazy(function () use ($request) {
                 return $this->queyStudentNotes($request);
             }),
+            'filterMode' => $request->has('term') && $request->get('term') !== '',
         ]);
     }
 
     protected function queryStudents(Request $request): LengthAwarePaginator
     {
         $students = User::query();
+
+        if ($request->has('term') && $request->get('term') !== '') {
+            $students = $students->where(
+                $request->get('type', 'name'),
+                'like',
+                "%{$request->get('term')}%"
+            );
+        }
 
         /**
          * @var \Illuminate\Pagination\LengthAwarePaginator $students
